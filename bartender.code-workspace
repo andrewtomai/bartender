@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "packages\\bartender-core"
+		},
+		{
+			"path": "packages\\bartender-service"
+		}
+	]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "bartender-service",
+  "version": "1.0.0",
+  "description": "The serverless service that runs bartender",
+  "main": "index.js",
+  "author": "Andrew Tomai",
+  "license": "MIT",
+  "devDependencies": {
+    "aws-sdk": "^2.729.0",
+    "axios": "^0.19.2",
+    "chai": "^4.2.0",
+    "commander": "^6.0.0",
+    "mocha": "^8.1.1",
+    "npm-run-all": "^4.1.5",
+    "serverless": "^1.78.1",
+    "serverless-offline": "^6.5.0",
+    "serverless-stack-output": "^0.2.3",
+    "snap-shot-it": "^7.9.3",
+    "wait-on": "^5.2.0"
+  },
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "ramda": "^0.27.1",
+    "uuid": "^8.3.0"
+  },
+  "scripts": {
+    "start": "serverless offline",
+    "unit": "mocha test/unit --recursive",
+    "integration": "run-s initialize-env internal:integration",
+    "integration:dev": "run-s \"initialize-env -s dev\" internal:integration",
+    "integration:staging": "run-s \"initialize-env -s staging\" internal:integration",
+    "integration:prod": "run-s \"initialize-env -s prod\" internal:integration",
+    "internal:integration": "mocha -r dotenv/config test/integration --recursive",
+    "initialize-env": "node ./scripts/initialize-env.js"
+  }
+}

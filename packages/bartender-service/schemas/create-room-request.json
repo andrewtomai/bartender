@@ -1,0 +1,24 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "type": "object",
+    "title": "Create Room Request Body",
+    "required": [
+        "dateRange",
+        "roomTitle"
+    ],
+    "properties": {
+        "dateRange": {
+            "type": "object",
+            "required": [
+                "start",
+                "end"
+            ],
+            "properties": {
+                "start": { "type": "string", "pattern": "date-time" },
+                "end": { "type": "string", "pattern": "date-time" }
+            }
+        },
+        "roomTitle": { "type": "string", "minLength": 1, "maxLength": 30 }
+    }
+
+}

@@ -1,0 +1,71 @@
+service: bartender
+provider:
+  name: aws
+  region: us-west-2
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'dev'}
+  profile: ${self:provider.stage} ## used to deploy the project
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:BatchGetItem
+        - dynamodb:BatchWriteItem
+        - dynamodb:ConditionCheckItem
+        - dynamodb:PutItem
+        - dynamodb:DeleteItem
+        - dynamodb:GetItem
+        - dynamodb:Query
+        - dynamodb:UpdateItem
+      Resource:
+        - arn:aws:dynamodb:*:*:table/${self:custom.table-name} # The table itself
+        - arn:aws:dynamodb:*:*:table/${self:custom.table-name}/index/* # The indexes for the table
+  environment:
+    TABLE_NAME: ${self:custom.table-name}
+plugins:
+  - serverless-offline
+  - serverless-stack-output
+
+functions:
+  # createRoom:
+  #   handler: src/index.createRoom
+  #   events:
+  #     - http:
+  #         path: room/
+  #         method: post
+  #         request:
+  #           schema:
+  #             application/json: ${file(schemas/create-room-request.json)}
+              
+  getRoom:
+    handler: src/index.getRoom
+    events:
+      - http:
+          path: room/{roomId}
+          method: get
+          request:
+            parameters:
+              paths:
+                roomId: true
+
+  # createUser:
+  #   handler: src/index.createUser
+  
+  # putOrder:
+  #   handler: src/index.putOrder
+
+
+resources:
+  Resources:
+    Table:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        KeySchema:
+          - AttributeName: primaryId
+            KeyType: HASH
+          - AttributeName: secondaryId
+            KeyType: RANGE
+        TableName: ${self:custom.table-name}
+
+custom:
+  table-name: bartender-${self:provider.stage}
+  output: stacks/${self:provider.stage}.stack.json
