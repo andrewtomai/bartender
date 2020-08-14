@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "packages\\bartender-service"
+		},
+		{
+			"path": "."
 		}
 	]
 }
