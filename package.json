@@ -4,17 +4,26 @@
   "description": "A website!",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint-staged": "lint-staged",
+    "test:unit": "mocha \"packages/**/test/unit/*.js\""
   },
   "author": "Andrew Tomai",
   "license": "ISC",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
-    "lerna": "^3.22.1",
     "eslint": "^7.6.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.0",
-    "mocha": "^8.1.1"
-  }
+    "lerna": "^3.22.1",
+    "lint-staged": "^10.2.11",
+    "mocha": "^8.1.1",
+    "pre-commit": "^1.2.2"
+  },
+  "lint-staged": {
+    "*.js": "eslint --fix"
+  },
+  "pre-commit": [
+    "lint-staged",
+    "test:unit"
+  ]
 }
