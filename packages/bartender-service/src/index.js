@@ -1,3 +1,3 @@
-const { getRoom } = require('./room/getRoom');
+const { createRoom } = require('./room/createRoom');
 
-module.exports = { getRoom };
+module.exports = { createRoom };

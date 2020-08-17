@@ -18,7 +18,7 @@ const baseUrl = () => {
             protocol: 'http',
             hostname: 'localhost',
             port: environment.port(),
-            pathname: '/dev',
+            pathname: `/${environment.testingStage()}`,
         });
     }
     const stackInfo = readStackFile();
@@ -28,7 +28,6 @@ const baseUrl = () => {
 
 const client = axios.create({
     baseURL: baseUrl(),
-    timeout: 5000,
     validateStatus: null, // do not throw errors on bad responses (outside 200 range)
 });
 

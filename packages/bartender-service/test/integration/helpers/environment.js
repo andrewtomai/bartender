@@ -2,7 +2,7 @@ const R = require('ramda');
 
 const isLocalTest = () => R.equals(testingStage(), 'local');
 
-const testingStage = () => R.path(['env', 'STAGE'], process);
+const testingStage = () => R.path(['env', 'TEST_STAGE'], process);
 
 const port = () => R.pathOr(3000, ['env', 'PORT'], process);
 

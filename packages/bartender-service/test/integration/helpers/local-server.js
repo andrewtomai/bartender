@@ -12,7 +12,7 @@ const serverlessProcess = {
                 hostname: 'localhost',
                 port: environment.port(),
             })
-            this.process = spawn('serverless', ['offline', '--port', environment.port()])
+            this.process = spawn('serverless', ['offline', 'start', '--stage', environment.testingStage()])
             await waitOn({ resources: [baseTcp] })
         }
     },
