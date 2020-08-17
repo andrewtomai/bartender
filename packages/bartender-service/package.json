@@ -11,8 +11,8 @@
     "chai": "^4.2.0",
     "commander": "^6.0.0",
     "mocha": "^8.1.1",
-    "npm-run-all": "^4.1.5",
     "serverless": "^1.78.1",
+    "serverless-dynamodb-local": "^0.2.39",
     "serverless-offline": "^6.5.0",
     "serverless-stack-output": "^0.2.3",
     "snap-shot-it": "^7.9.3",
@@ -24,13 +24,11 @@
     "uuid": "^8.3.0"
   },
   "scripts": {
-    "start": "serverless offline",
+    "start": "serverless offline start --stage local",
     "unit": "mocha test/unit --recursive",
-    "integration": "run-s initialize-env internal:integration",
-    "integration:dev": "run-s \"initialize-env -s dev\" internal:integration",
-    "integration:staging": "run-s \"initialize-env -s staging\" internal:integration",
-    "integration:prod": "run-s \"initialize-env -s prod\" internal:integration",
-    "internal:integration": "mocha -r dotenv/config test/integration --recursive",
-    "initialize-env": "node ./scripts/initialize-env.js"
+    "integration": "export TEST_STAGE='local'; mocha test/integration --recursive",
+    "integration:dev": "export TEST_STAGE='dev'; mocha test/integration --recursive",
+    "integration:staging": "export TEST_STAGE='staging'; mocha test/integration --recursive",
+    "integration:prod": "export TEST_STAGE='prod'; mocha test/integration --recursive"
   }
 }

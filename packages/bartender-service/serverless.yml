@@ -22,43 +22,32 @@ provider:
   environment:
     TABLE_NAME: ${self:custom.table-name}
 plugins:
+  - serverless-dynamodb-local
   - serverless-offline
   - serverless-stack-output
 
 functions:
-  # createRoom:
-  #   handler: src/index.createRoom
-  #   events:
-  #     - http:
-  #         path: room/
-  #         method: post
-  #         request:
-  #           schema:
-  #             application/json: ${file(schemas/create-room-request.json)}
-              
-  getRoom:
-    handler: src/index.getRoom
+  createRoom:
+    handler: src/index.createRoom
     events:
       - http:
-          path: room/{roomId}
-          method: get
+          path: room/
+          method: post
           request:
-            parameters:
-              paths:
-                roomId: true
-
-  # createUser:
-  #   handler: src/index.createUser
-  
-  # putOrder:
-  #   handler: src/index.putOrder
-
+            schema:
+              application/json: ${file(schemas/create-room-request.json)}
 
 resources:
   Resources:
     Table:
       Type: AWS::DynamoDB::Table
       Properties:
+        BillingMode: PAY_PER_REQUEST 
+        AttributeDefinitions:
+          - AttributeName: primaryId
+            AttributeType: S
+          - AttributeName: secondaryId
+            AttributeType: S
         KeySchema:
           - AttributeName: primaryId
             KeyType: HASH
@@ -67,5 +56,10 @@ resources:
         TableName: ${self:custom.table-name}
 
 custom:
-  table-name: bartender-${self:provider.stage}
+  table-name: bartender-service-${self:provider.stage}
   output: stacks/${self:provider.stage}.stack.json
+  dynamodb:
+    start:
+      migrate: true
+    stages:
+      - ${self:provider.stage}
