@@ -36,6 +36,16 @@ functions:
           request:
             schema:
               application/json: ${file(schemas/create-room-request.json)}
+  getRoom:
+    handler: src/index.getRoom
+    events:
+      - http:
+          path: room/{roomId}
+          method: get
+          request:
+            parameters:
+              paths:
+                roomId: true
 
 resources:
   Resources:
