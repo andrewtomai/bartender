@@ -12,4 +12,11 @@ const getRequestBody = (event) => {
     }
 }
 
-module.exports = { getRequestBody }
+// Get a specific path parameter from a lambda event
+// @sig getPathParameter :: (Event, parameter) -> String
+const getPathParameter = (event, parameter) => R.path(['pathParameters', parameter], event)
+
+module.exports = {
+    getRequestBody,
+    getPathParameter,
+}
