@@ -6,7 +6,7 @@ const testingStage = () => R.path(['env', 'TEST_STAGE'], process);
 
 const port = () => R.pathOr(3000, ['env', 'PORT'], process);
 
-const stackFile = () => `./${testingStage()}.stack.json`;
+const stackFile = () => `./stacks/${testingStage()}.stack.json`;
 
 module.exports = {
     isLocalTest,

@@ -4,7 +4,7 @@ provider:
   region: us-west-2
   runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
-  profile: ${self:provider.stage} ## used to deploy the project
+  # profile: ${self:provider.stage} ## used to deploy the project
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -67,7 +67,8 @@ resources:
 
 custom:
   table-name: bartender-service-${self:provider.stage}
-  output: stacks/${self:provider.stage}.stack.json
+  output:
+    file: stacks/${self:provider.stage}.stack.json
   dynamodb:
     start:
       migrate: true

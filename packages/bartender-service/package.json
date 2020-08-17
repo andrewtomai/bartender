@@ -25,6 +25,7 @@
   },
   "scripts": {
     "start": "serverless offline start --stage local",
+    "deploy": "serverless deploy",
     "unit": "mocha test/unit --recursive",
     "integration": "export TEST_STAGE='local'; mocha test/integration --recursive",
     "integration:dev": "export TEST_STAGE='dev'; mocha test/integration --recursive",

@@ -10,12 +10,11 @@
         "dateRange": {
             "type": "object",
             "required": [
-                "start",
-                "end"
+                "start"
             ],
             "properties": {
-                "start": { "type": "string", "pattern": "date-time" },
-                "end": { "type": "string", "pattern": "date-time" }
+                "start": { "type": "string", "format": "date-time" },
+                "end": { "type": "string", "format": "date-time" }
             }
         },
         "roomTitle": { "type": "string", "minLength": 1, "maxLength": 30 }
