@@ -1,12 +1,19 @@
 {
 	"folders": [
 		{
-			"path": "packages\\bartender-core"
+			"name": "bartender-app",
+			"path": "packages/bartender-app"
 		},
 		{
-			"path": "packages\\bartender-service"
+			"name": "bartender-core",
+			"path": "packages/bartender-core"
 		},
 		{
+			"name": "bartender-service",
+			"path": "packages/bartender-service"
+		},
+		{
+			"name": "bartender",
 			"path": "."
 		}
 	]
