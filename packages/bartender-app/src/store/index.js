@@ -3,13 +3,15 @@ import thunkMiddleware from 'redux-thunk'
 import { createBrowserHistory } from 'history'
 import { routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import callAPIMiddleware from './callApiMiddleware'
 import createRootReducer from '../reducers'
+
 
 // create a browser history
 export const history = createBrowserHistory()
 
 export default function configureStore(preloadedState) {
-  const middlewares = [routerMiddleware(history), thunkMiddleware]
+  const middlewares = [routerMiddleware(history), thunkMiddleware, callAPIMiddleware]
   const middlewareEnhancer = applyMiddleware(...middlewares)
 
   const enhancers = [middlewareEnhancer]

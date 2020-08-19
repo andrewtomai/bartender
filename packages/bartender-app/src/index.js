@@ -1,14 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { ThemeProvider } from '@material-ui/core/styles';
-import DayJsUtils from '@date-io/dayjs';
 import configureStore from './store'
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
-import theme from './theme'
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 
 const store = configureStore()
 
@@ -17,11 +14,7 @@ const renderApp = () => {
   ReactDOM.render(
     <React.StrictMode>
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <MuiPickersUtilsProvider utils={DayJsUtils}>
             <App/>
-          </MuiPickersUtilsProvider>
-        </ThemeProvider>
       </Provider>
     </React.StrictMode>,
     document.getElementById('root')
