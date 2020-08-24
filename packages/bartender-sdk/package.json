@@ -1,0 +1,11 @@
+{
+  "name": "@bartender/sdk",
+  "version": "1.0.0",
+  "description": "simple client sdk for interacting with the bartender service",
+  "main": "index.js",
+  "author": "Andrew Tomai",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.20.0"
+  }
+}

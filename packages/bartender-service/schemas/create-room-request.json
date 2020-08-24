@@ -4,20 +4,16 @@
     "title": "Create Room Request Body",
     "required": [
         "dateRange",
-        "roomTitle"
+        "roomName"
     ],
     "properties": {
         "dateRange": {
-            "type": "object",
-            "required": [
-                "start"
-            ],
-            "properties": {
-                "start": { "type": "string", "format": "date-time" },
-                "end": { "type": "string", "format": "date-time" }
-            }
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 2,
+            "items": { "type": "string", "format": "date-time" }
         },
-        "roomTitle": { "type": "string", "minLength": 1, "maxLength": 30 }
+        "roomName": { "type": "string", "minLength": 1, "maxLength": 30 }
     }
 
 }

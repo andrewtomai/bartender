@@ -8,7 +8,7 @@ import {
 
 import { history } from '../store'
 
-import CreateRoom from './Room/CreateRoom'
+import CreateRoomForm from './Room/CreateRoomForm'
 import Room from './Room/Room';
 
 const { Content, Sider } = Layout;
@@ -27,7 +27,7 @@ const App = () => {
           <Content style={{ margin: '16px' }}>
             <ConnectedRouter history={history}> { /* place ConnectedRouter under Provider */}
                 <Switch>
-                  <Route exact path="/" render={() => (<CreateRoom />)} />
+                  <Route exact path="/" render={() => (<CreateRoomForm />)} />
                   <Route render={() => (<Room />)} />
                 </Switch>
             </ConnectedRouter>

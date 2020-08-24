@@ -27,7 +27,7 @@ function validateParameters(callAPI, before, onSuccess, onFailure) {
         throw new Error('Expected callAPI to be a function.')
     }
 
-    [before, onSuccess, onFailure].map((types => {
+    [before, onSuccess, onFailure].forEach((types => {
         if (!Array.isArray(types) ||
             !types.every(type => typeof type === 'string')) {
             throw new Error('Expected an array of three string types.')

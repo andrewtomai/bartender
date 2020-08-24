@@ -5,8 +5,8 @@ describe('Room APIs', () => {
     describe('#Create Room', () => {
         it('Creates a room given a title and date range', async () => {
             const response = await Client.post('/room', {
-                roomTitle: 'my room title',
-                dateRange: { start: '2020-08-16T17:53:32-07:00' },
+                roomName: 'my room title',
+                dateRange: ['2020-08-16T17:53:32-07:00'],
             })
             const { data, status } = response
             expect(status).to.equal(200)
@@ -18,8 +18,8 @@ describe('Room APIs', () => {
         let createdRoomId
         before('Create a room to retrieve', async () => {
             const response = await Client.post('/room', {
-                roomTitle: 'my room title',
-                dateRange: { start: '2020-08-16T17:53:32-07:00' },
+                roomName: 'my room title',
+                dateRange: ['2020-08-16T17:53:32-07:00'],
             })
             expect(response.status).to.equal(200)
             createdRoomId = response.data.roomId

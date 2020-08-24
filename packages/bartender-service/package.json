@@ -1,5 +1,5 @@
 {
-  "name": "bartender-service",
+  "name": "@bartender/service",
   "version": "1.0.0",
   "description": "The serverless service that runs bartender",
   "main": "index.js",

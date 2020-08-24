@@ -5,19 +5,19 @@ const { DynamoDb } = require('../helpers/client')
 const createRoom = async (event) => {
     // unwrap event
     const body = Parameters.getRequestBody(event)
-    const { roomTitle, dateRange } = body
+    const { roomName, dateRange } = body
     // calculate a random room Id, to be stored and returned
     const roomId = uuid()
     // put a room record in dynamodb
     await DynamoDb.putRoom({
         roomId,
-        roomTitle,
+        roomName,
         dateRange,
     })
     // return a 200 response including the roomId
     return Response.Ok({
         roomId,
-        roomTitle,
+        roomName,
         dateRange,
     });
 }

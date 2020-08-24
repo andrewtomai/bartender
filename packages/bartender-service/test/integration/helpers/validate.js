@@ -11,7 +11,7 @@ const errorResponse = (data) => {
 
 const roomResposne = (data) => {
     expect(data).to.have.property('roomId')
-    expect(data).to.have.property('roomTitle')
+    expect(data).to.have.property('roomName')
     expect(data).to.have.property('dateRange')
 }
 

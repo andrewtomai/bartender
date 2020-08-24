@@ -9,6 +9,10 @@
 			"path": "packages/bartender-core"
 		},
 		{
+			"name": "bartender-sdk",
+			"path": "packages/bartender-sdk"
+		},
+		{
 			"name": "bartender-service",
 			"path": "packages/bartender-service"
 		},
