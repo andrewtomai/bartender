@@ -1,6 +1,6 @@
 const { expect } = require('chai')
 
-const errorResponse = (data) => {
+export const errorResponse = (data) => {
     expect(data).to.have.property('error')
     const { error } = data
     expect(error).to.have.property('date')
@@ -9,10 +9,9 @@ const errorResponse = (data) => {
     expect(error).to.have.property('type')
 }
 
-const roomResposne = (data) => {
+export const roomResposne = (data) => {
     expect(data).to.have.property('roomId')
     expect(data).to.have.property('roomName')
     expect(data).to.have.property('dateRange')
 }
 
-module.exports = { errorResponse, roomResposne }

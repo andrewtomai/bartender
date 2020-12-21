@@ -26,9 +26,19 @@ const baseUrl = () => {
 };
 
 
-const client = axios.create({
-    baseURL: baseUrl(),
-    validateStatus: null, // do not throw errors on bad responses (outside 200 range)
-});
+type GraphqlVariables = {
+    [prop: string]: any
+}
 
-module.exports = client;
+const query = ( graphqlQuery: string, variables?: GraphqlVariables): Promise<object> => {
+    const client = axios.create({
+        baseURL: baseUrl(),
+        validateStatus: null, // do not throw errors on bad responses (outside 200 range)
+    });
+    return client.post('/graphql', {
+        query: graphqlQuery,
+        variables,
+    });
+}
+
+export default query;

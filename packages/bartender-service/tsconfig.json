@@ -13,7 +13,7 @@
     "lib": [
       "es2017"
     ],
-    "rootDir": "./src",
+    "rootDir": "./",
     "resolveJsonModule": true
   }
 }
