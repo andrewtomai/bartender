@@ -4,7 +4,6 @@ provider:
   region: us-west-2
   runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
-  # profile: ${self:provider.stage} ## used to deploy the project
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -21,31 +20,26 @@ provider:
         - arn:aws:dynamodb:*:*:table/${self:custom.table-name}/index/* # The indexes for the table
   environment:
     TABLE_NAME: ${self:custom.table-name}
+    STAGE: ${self:provider.stage}
 plugins:
+  - serverless-webpack
   - serverless-dynamodb-local
   - serverless-offline
   - serverless-stack-output
 
 functions:
-  createRoom:
-    handler: src/index.createRoom
+  graphql:
+    # this is formatted as <FILENAME>.<HANDLER>
+    handler: src/index.graphqlHandler
     events:
-      - http:
-          path: room/
-          method: post
-          request:
-            schema:
-              application/json: ${file(schemas/create-room-request.json)}
-  getRoom:
-    handler: src/index.getRoom
-    events:
-      - http:
-          path: room/{roomId}
-          method: get
-          request:
-            parameters:
-              paths:
-                roomId: true
+    - http:
+        path: graphql
+        method: post
+        cors: true
+    - http:
+        path: graphql
+        method: get
+        cors: true
 
 resources:
   Resources:
@@ -71,6 +65,11 @@ custom:
     file: stacks/${self:provider.stage}.stack.json
   dynamodb:
     start:
+      inMemory: true
       migrate: true
     stages:
       - ${self:provider.stage}
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    packager: 'yarn'
+    includeModules: true
