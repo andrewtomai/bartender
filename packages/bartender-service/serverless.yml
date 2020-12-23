@@ -19,6 +19,7 @@ provider:
         - arn:aws:dynamodb:*:*:table/${self:custom.table-name} # The table itself
         - arn:aws:dynamodb:*:*:table/${self:custom.table-name}/index/* # The indexes for the table
   environment:
+    REVERSE_LOOKUP_INDEX: ${self:custom.reverse-lookup-index-name}
     TABLE_NAME: ${self:custom.table-name}
     STAGE: ${self:provider.stage}
 plugins:
@@ -57,10 +58,23 @@ resources:
             KeyType: HASH
           - AttributeName: secondaryId
             KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:custom.reverse-lookup-index-name}
+            KeySchema: 
+              - AttributeName: secondaryId
+                KeyType: HASH
+              - AttributeName: primaryId
+                KeyType: RANGE
+            Projection: 
+              ProjectionType: ALL
+
         TableName: ${self:custom.table-name}
 
 custom:
   table-name: bartender-service-${self:provider.stage}
+  reverse-lookup-index-name: ReverseLookup
+  serverless-offline:
+    httpPort: 4000
   output:
     file: stacks/${self:provider.stage}.stack.json
   dynamodb:

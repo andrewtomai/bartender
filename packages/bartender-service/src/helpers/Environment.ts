@@ -9,7 +9,11 @@ export const isExecutingInLambda = () => process.env.AWS_LAMBDA_FUNCTION_NAME
 export const isOffline = () => process.env.IS_OFFLINE
 
 // The dynamoDb table name to use
-export const tableName = () => process.env.TABLE_NAME
+export const tableName = () => envOr('', 'BARTENDER_TABLE_NAME');
 
+// The stage at which this service is deployed
 export const stage = () => envOr('prod', 'STAGE');
+
+// The reverse lookup index
+export const reverseLookup = () => envOr('', 'REVERSE_LOOKUP_INDEX'); 
 

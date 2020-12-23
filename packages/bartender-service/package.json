@@ -48,6 +48,6 @@
     "integration:dev": "export TEST_STAGE='dev'; mocha test/integration --recursive",
     "integration:staging": "export TEST_STAGE='staging'; mocha test/integration --recursive",
     "integration:prod": "export TEST_STAGE='prod'; mocha test/integration --recursive",
-    "generate-types": "graphql-codegen --config codegen.yml"
+    "generate-types": "graphql-codegen --config .graphqlrc.yml"
   }
 }

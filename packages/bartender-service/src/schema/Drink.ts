@@ -3,12 +3,12 @@ import { gql } from "apollo-server-lambda";
 const DrinkSchema = gql`
 
     extend type Query {
-        drink(id: ID!) Drink
-        listDrinks(query: DrinkQuery!) [Drink]!
+        drink(id: ID!): Drink
+        listDrinks(query: DrinkQuery!): [Drink]!
     }
 
     extend type Mutation {
-        createDrink(drink: DrinkInput!) Drink!
+        createDrink(drink: DrinkInput!): Drink!
     }
 
     input DrinkQuery {
@@ -18,8 +18,13 @@ const DrinkSchema = gql`
 
     input DrinkInput {
         name: String!
-        recipe: [QuantifiedIngrediant]
+        recipe: [QuantifiedIngrediantInput]
         tags: [ID]
+    }
+
+    input QuantifiedIngrediantInput {
+        name: String!
+        quantity: String!
     }
     
     type Drink {

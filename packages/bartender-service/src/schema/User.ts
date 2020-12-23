@@ -10,7 +10,7 @@ const UserSchema = gql`
         createUser(user: UserInput!): User!
         joinRoom(occupant: OccupantInput!): Occupant
         leaveRoom(occupant: OccupantInput!): Occupant
-        updatePreferences(occupantId: ID!, preferences: [Drink]!): Occupant
+        updatePreferences(occupantId: ID!, preferences: [DrinkPreferenceInput]!): Occupant
     }
 
     input OccupantInput {
@@ -22,13 +22,17 @@ const UserSchema = gql`
         name: String!
     }
 
+    input DrinkPreferenceInput {
+        id: ID!
+    }
+
     type User {
         id: ID!
-        occupancies: [Occupanct]!
+        occupancies: [Occupant]!
         name: String!
     }
 
-    type Occupanct {
+    type Occupant {
         room: Room!
         user: User!
         prefereces: [Drink]!
