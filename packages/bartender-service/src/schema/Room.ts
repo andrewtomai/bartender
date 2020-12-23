@@ -6,20 +6,24 @@ const RoomSchema = gql`
     }
 
     extend type Mutation {
-        createRoom(input: RoomInput): Room!
+        createRoom(input: RoomInput!): Room!
+        deleteRoom(id: ID!): Room
     }
 
     input RoomInput {
+        name: String!
         description: String
     }
 
     type Room {
         id: ID!
-        users: [User]!
-        drinks: [Drink]!
+        name: String!
+        description: String
+        occupants: [Occupant]!
+        menu: [Drink]!
+        ingrediants: [QuantifiedIngrediant]!
         createdAt: String!
         createdBy: User!
-        description: String
     }
 `
 
