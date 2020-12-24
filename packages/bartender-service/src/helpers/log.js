@@ -11,9 +11,7 @@ const LOG_LEVELS = {
     error: 1,
 };
 const isObjectOrArray = R.either(R.is(Array), R.is(Object));
-const colorizeAny = colorizer => o => (isObjectOrArray(o)
-    ? colorizer(JSON.stringify(o, null, 2))
-    : colorizer(o));
+const colorizeAny = (colorizer) => (o) => (isObjectOrArray(o) ? colorizer(JSON.stringify(o, null, 2)) : colorizer(o));
 const cyan = colorizeAny(chalk.cyan);
 const green = colorizeAny(chalk.green);
 const orange = colorizeAny(chalk.keyword('orange'));
@@ -50,9 +48,7 @@ class Logger {
     }
 
     colorizeArgs(colorizer, args) {
-        return this.colorize
-            ? R.map(colorizer, args)
-            : args;
+        return this.colorize ? R.map(colorizer, args) : args;
     }
 
     separator(title) {

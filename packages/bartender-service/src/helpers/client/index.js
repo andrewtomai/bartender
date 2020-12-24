@@ -1,3 +1,3 @@
-const DynamoDb = require('./dynamodb')
+const DynamoDb = require('./dynamodb');
 
-module.exports = { DynamoDb }
+module.exports = { DynamoDb };

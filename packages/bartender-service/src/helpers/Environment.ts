@@ -1,19 +1,20 @@
-import * as R from 'ramda'
+import * as R from 'ramda';
 
-const envOr = (defaultValue: string, variable: string): string => R.pathOr(defaultValue, ['env', variable], process)
+const envOr = (defaultValue: string, variable: string): string => R.pathOr(defaultValue, ['env', variable], process);
+
+type Maybe<t> = t | undefined;
 
 // returns truthy if there is an "AWS_LAMBDA_FUNCTION_NAME"
-export const isExecutingInLambda = () => process.env.AWS_LAMBDA_FUNCTION_NAME
+export const isExecutingInLambda = (): Maybe<string> => process.env.AWS_LAMBDA_FUNCTION_NAME;
 
 // returns truthy if the execution is occurring in serverless-offline
-export const isOffline = () => process.env.IS_OFFLINE
+export const isOffline = (): Maybe<string> => process.env.IS_OFFLINE;
 
 // The dynamoDb table name to use
-export const tableName = () => envOr('', 'BARTENDER_TABLE_NAME');
+export const tableName = (): string => envOr('', 'BARTENDER_TABLE_NAME');
 
 // The stage at which this service is deployed
-export const stage = () => envOr('prod', 'STAGE');
+export const stage = (): string => envOr('prod', 'STAGE');
 
 // The reverse lookup index
-export const reverseLookup = () => envOr('', 'REVERSE_LOOKUP_INDEX'); 
-
+export const reverseLookup = (): string => envOr('', 'REVERSE_LOOKUP_INDEX');

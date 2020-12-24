@@ -10,7 +10,7 @@ const response = (body, options) => {
 };
 // add the default CORS and content type headers to the response
 // @sig addDefaultHeaders :: (Object) -> Object
-const addDefaultHeaders = headers => ({
+const addDefaultHeaders = (headers) => ({
     'Access-Control-Allow-Methods': 'GET,OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,Type,Location',
     'Access-Control-Allow-Origin': '*',

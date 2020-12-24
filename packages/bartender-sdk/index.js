@@ -1,5 +1,5 @@
-const BartenderService = require('./lib/BartenderService')
+const BartenderService = require('./lib/BartenderService');
 
-const client = (config) => new BartenderService(config)
+const client = (config) => new BartenderService(config);
 
-module.exports = client
+module.exports = client;

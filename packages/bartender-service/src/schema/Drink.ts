@@ -1,7 +1,6 @@
-import { gql } from "apollo-server-lambda";
+import { gql } from 'apollo-server-lambda';
 
 const DrinkSchema = gql`
-
     extend type Query {
         drink(id: ID!): Drink
         listDrinks(query: DrinkQuery!): [Drink]!
@@ -26,7 +25,7 @@ const DrinkSchema = gql`
         name: String!
         quantity: String!
     }
-    
+
     type Drink {
         id: ID!
         name: String!
@@ -44,7 +43,6 @@ const DrinkSchema = gql`
         ingrediant: Ingrediant!
         quantity: String!
     }
-`
-
+`;
 
 export default DrinkSchema;

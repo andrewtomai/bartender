@@ -5,21 +5,26 @@
   "main": "index.js",
   "scripts": {
     "lint-staged": "lint-staged",
-    "test:unit": "mocha \"packages/**/test/unit/*.js\""
+    "test:unit": "mocha \"packages/**/test/unit/*.js\"",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --fix"
   },
   "author": "Andrew Tomai",
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
-    "eslint": "^6.0.0",
-    "eslint-config-airbnb": "^18.2.0",
-    "eslint-plugin-import": "^2.22.0",
+    "@typescript-eslint/eslint-plugin": "^4.11.0",
+    "@typescript-eslint/parser": "^4.11.0",
+    "eslint": "^7.16.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-prettier": "^3.3.0",
     "lint-staged": "^10.2.11",
     "mocha": "^8.1.1",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "prettier": "^2.2.1",
+    "typescript": "^4.1.3"
   },
   "lint-staged": {
-    "*.js": "eslint --fix"
+    "*.{js,ts,tsx}": "eslint --fix"
   },
   "pre-commit": [
     "lint-staged",

@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-lambda";
+import { gql } from 'apollo-server-lambda';
 
 const UserSchema = gql`
     extend type Query {
@@ -37,8 +37,6 @@ const UserSchema = gql`
         user: User!
         prefereces: [Drink]!
     }
-
-`
-
+`;
 
 export default UserSchema;

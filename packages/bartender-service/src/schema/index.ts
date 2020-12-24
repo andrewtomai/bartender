@@ -1,7 +1,7 @@
-import { gql } from "apollo-server-lambda";
-import RoomSchema from './Room'
-import UserSchema from './User'
-import DrinkSchema from './Drink'
+import { gql } from 'apollo-server-lambda';
+import RoomSchema from './Room';
+import UserSchema from './User';
+import DrinkSchema from './Drink';
 
 const defaultRoot = gql`
     type Query {
@@ -11,14 +11,8 @@ const defaultRoot = gql`
     type Mutation {
         _empty: String
     }
-`
+`;
 
-const typeDefs = [
-    defaultRoot,
-    RoomSchema,
-    UserSchema,
-    DrinkSchema,
-];
-
+const typeDefs = [defaultRoot, RoomSchema, UserSchema, DrinkSchema];
 
 export default typeDefs;

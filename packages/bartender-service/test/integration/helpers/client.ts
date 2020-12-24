@@ -1,6 +1,6 @@
-import axios, { AxiosResponse } from 'axios'
-import url from 'url'
-import fs from 'fs'
+import axios, { AxiosResponse } from 'axios';
+import url from 'url';
+import fs from 'fs';
 import * as Environment from './Environment';
 
 const readStackFile = () => {
@@ -25,26 +25,33 @@ const baseUrl = () => {
     return stackInfo.ServiceEndpoint;
 };
 
-
 type GraphqlVariables = {
-    [prop: string]: any
-}
+    [prop: string]: unknown;
+};
 
-const query = (graphqlQuery: string, variables?: GraphqlVariables) => {
+type GraphqlResponse = {
+    status: number;
+    data?: unknown;
+    errors?: unknown;
+};
+
+const query = (graphqlQuery: string, variables?: GraphqlVariables): Promise<GraphqlResponse> => {
     const client = axios.create({
         baseURL: baseUrl(),
         validateStatus: () => true, // do not throw errors on bad responses (outside 200 range)
     });
-    return client.post('/graphql', {
-        query: graphqlQuery,
-        variables,
-    }).then(graphqlResponse);
-}
+    return client
+        .post('/graphql', {
+            query: graphqlQuery,
+            variables,
+        })
+        .then(graphqlResponse);
+};
 
-const graphqlResponse = (axiosResponse: AxiosResponse): { data: any, status: number, errors: any } => ({
+const graphqlResponse = (axiosResponse: AxiosResponse): GraphqlResponse => ({
     data: axiosResponse.data.data,
     status: axiosResponse.status,
     errors: axiosResponse.data.errors,
-})
+});
 
 export default query;

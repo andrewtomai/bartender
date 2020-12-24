@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-lambda";
+import { gql } from 'apollo-server-lambda';
 
 const RoomSchema = gql`
     extend type Query {
@@ -25,7 +25,6 @@ const RoomSchema = gql`
         createdAt: String!
         createdBy: User!
     }
-`
-
+`;
 
 export default RoomSchema;

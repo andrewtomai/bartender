@@ -1,3 +1,3 @@
 describe('test', () => {
-    it('does something')
-})
+    it('does something');
+});
