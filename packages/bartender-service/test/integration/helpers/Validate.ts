@@ -14,4 +14,3 @@ export const roomResposne = (data) => {
     expect(data).to.have.property('roomName')
     expect(data).to.have.property('dateRange')
 }
-

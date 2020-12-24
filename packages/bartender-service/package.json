@@ -44,7 +44,7 @@
     "start": "serverless offline start --stage local",
     "deploy": "serverless deploy",
     "unit": "mocha test/unit --recursive",
-    "integration": "export TEST_STAGE='local'; mocha test/integration --recursive",
+    "integration": "export TEST_STAGE='local'; ts-mocha test/integration/*.ts",
     "integration:dev": "export TEST_STAGE='dev'; mocha test/integration --recursive",
     "integration:staging": "export TEST_STAGE='staging'; mocha test/integration --recursive",
     "integration:prod": "export TEST_STAGE='prod'; mocha test/integration --recursive",

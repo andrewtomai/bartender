@@ -3,7 +3,7 @@ extensions:
   codegen:
     overwrite: true
     generates:
-      src/generated/graphql.ts:
+      src/generated/graphql-types.ts:
         plugins:
           - "typescript"
           - "typescript-resolvers"

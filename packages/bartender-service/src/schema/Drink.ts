@@ -30,8 +30,8 @@ const DrinkSchema = gql`
     type Drink {
         id: ID!
         name: String!
-        recipe: [QuantifiedIngrediant]!
-        tags: [Drink]!
+        recipe: [QuantifiedIngrediant]
+        tags: [Drink]
     }
 
     type Ingrediant {
@@ -41,7 +41,7 @@ const DrinkSchema = gql`
 
     type QuantifiedIngrediant {
         id: ID!
-        ingrediantId: ID!
+        ingrediant: Ingrediant!
         quantity: String!
     }
 `

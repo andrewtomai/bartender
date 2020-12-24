@@ -1,24 +1,24 @@
-const axios = require('axios')
-const url = require('url')
-const fs = require('fs')
-const environment = require('./environment')
+import axios, { AxiosResponse } from 'axios'
+import url from 'url'
+import fs from 'fs'
+import * as Environment from './Environment';
 
 const readStackFile = () => {
-    const stackFile = environment.stackFile();
+    const stackFile = Environment.stackFile();
     if (!fs.existsSync(stackFile)) {
-        console.error('Stack file does not exist for stage: ', environment.testingStage());
+        console.error('Stack file does not exist for stage: ', Environment.testingStage());
         process.exit(1);
     }
-    return JSON.parse(fs.readFileSync(stackFile));
+    return JSON.parse(fs.readFileSync(stackFile).toString());
 };
 
 const baseUrl = () => {
-    if (environment.isLocalTest()) {
+    if (Environment.isLocalTest()) {
         return url.format({
             protocol: 'http',
             hostname: 'localhost',
-            port: environment.port(),
-            pathname: `/${environment.testingStage()}`,
+            port: Environment.port(),
+            pathname: `/${Environment.testingStage()}`,
         });
     }
     const stackInfo = readStackFile();
@@ -30,15 +30,21 @@ type GraphqlVariables = {
     [prop: string]: any
 }
 
-const query = ( graphqlQuery: string, variables?: GraphqlVariables): Promise<object> => {
+const query = (graphqlQuery: string, variables?: GraphqlVariables) => {
     const client = axios.create({
         baseURL: baseUrl(),
-        validateStatus: null, // do not throw errors on bad responses (outside 200 range)
+        validateStatus: () => true, // do not throw errors on bad responses (outside 200 range)
     });
     return client.post('/graphql', {
         query: graphqlQuery,
         variables,
-    });
+    }).then(graphqlResponse);
 }
+
+const graphqlResponse = (axiosResponse: AxiosResponse): { data: any, status: number, errors: any } => ({
+    data: axiosResponse.data.data,
+    status: axiosResponse.status,
+    errors: axiosResponse.data.errors,
+})
 
 export default query;
