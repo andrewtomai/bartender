@@ -8,6 +8,8 @@ const getClient = () => {
               apiVersion: '2012-08-10',
               region: 'localhost',
               endpoint: `http://localhost:8000`,
+              accessKeyId: 'DEFAULT_ACCESS_KEY', // needed if you don't have aws credentials at all in env
+              secretAccessKey: 'DEFAULT_SECRET', // needed if you don't have aws credentials at all in env
           }
         : { apiVersion: '2012-08-10' };
     return new AWS.DynamoDB(configuration);
@@ -26,7 +28,6 @@ export type DatabaseItem = DatabaseKeyPair & {
 // This method puts an item to dynamodb
 // @sig putItem :: (Object) -> Promise
 export const putItem = async (data: DatabaseItem): Promise<DatabaseItem> => {
-    Log.info('hiya hiya');
     Log.info(Environment.tableName());
     const dynamoDb = getClient();
     const params = {

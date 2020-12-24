@@ -7,3 +7,7 @@ export const testingStage = (): string => R.path(['env', 'TEST_STAGE'], process)
 export const port = (): number => R.pathOr(4000, ['env', 'PORT'], process);
 
 export const stackFile = (): string => `./stacks/${testingStage()}.stack.json`;
+
+export const isCITest = (): boolean => !!process.env.CI;
+
+export const shouldStartLocalServer = (): boolean => isCITest() && isLocalTest();

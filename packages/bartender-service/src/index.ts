@@ -16,3 +16,10 @@ export const graphqlHandler = server.createHandler({
         credentials: true,
     },
 });
+
+export const ping = async (): Promise<Record<string, unknown>> => ({
+    body: JSON.stringify({ message: 'ping' }),
+    isBase6eEncoded: false,
+    statusCode: 200,
+    headers: {},
+});
