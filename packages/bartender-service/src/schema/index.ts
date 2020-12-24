@@ -4,6 +4,8 @@ import UserSchema from './User';
 import DrinkSchema from './Drink';
 
 const defaultRoot = gql`
+    scalar UUID
+
     type Query {
         _empty: String
     }

@@ -22,7 +22,7 @@ module.exports = {
         'no-multiple-empty-lines': 'off',
         'max-len': ['warn', { code: 120 }],
         'object-curly-newline': ['error', { multiline: true }],
-        indent: ['error', 4],
+        // indent: ['error', 4],
         'key-spacing': 'off',
         'padded-blocks': 0,
         'no-multi-spaces': 'off',

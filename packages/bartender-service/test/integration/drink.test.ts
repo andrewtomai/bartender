@@ -1,12 +1,11 @@
-import * as R from 'ramda';
-import { expect } from 'chai';
 import Query from './helpers/client';
+import * as Validate from './helpers/Validate';
 
-describe('Scenario: Creating Drinks', () => {
+describe('Scenario: Interacting with Drinks', () => {
     let mixedDrinkId, whiskeyDrinkId;
-    describe('Given a name of a drink', () => {
-        const drinkName = 'mixed drink';
-        describe('When I create the drink', () => {
+    describe('Given I want to create a drink', () => {
+        describe('When I create the drink using a name', () => {
+            const name = 'mixed drink';
             let response;
             before('create the mixed drink', async () => {
                 const q = `#graphql
@@ -17,18 +16,15 @@ describe('Scenario: Creating Drinks', () => {
                         }
                     }
                 `;
-                response = await Query(q, { drink: { name: drinkName } });
+                response = await Query(q, { drink: { name } });
                 mixedDrinkId = response.data.createDrink.id;
             });
             it('Then I get back my mixed Drink', async () => {
-                const drink = R.path(['data', 'createDrink'], response);
-                expect(response.status).to.equal(200);
-                expect(drink).to.have.property('id');
-                expect(drink).to.have.property('name', drinkName);
+                Validate.drink({ name }, response);
             });
             it('And I can now retrieve the mixed drink using its Id', async () => {
                 const q = `#graphql
-                    query GetDrink($id: ID!) {
+                    query GetDrink($id: UUID!) {
                         drink(id:  $id) {
                             id,
                             name
@@ -36,18 +32,12 @@ describe('Scenario: Creating Drinks', () => {
                     }
                 `;
                 const getDrinkResponse = await Query(q, { id: mixedDrinkId });
-                const drink = R.path(['data', 'drink'], response);
-                expect(getDrinkResponse.status).to.equal(200);
-                expect(drink).to.have.property('id');
-                expect(drink).to.have.property('name', drinkName);
+                Validate.drink({ name }, getDrinkResponse);
             });
         });
-    });
-
-    describe("Given a name of a drink and it's recipe", () => {
-        const drinkName = 'whiskey';
-        const recipe = [{ name: 'whiskey', quantity: '2oz' }];
-        describe('When I create the drink', () => {
+        describe('When I create the drink using a name and a recipe', () => {
+            const name = 'whiskey';
+            const recipe = [{ name: 'whiskey', quantity: '2oz' }];
             let response;
             before('create the mixed drink', async () => {
                 const q = `#graphql
@@ -55,21 +45,24 @@ describe('Scenario: Creating Drinks', () => {
                         createDrink(drink: $drink) {
                             id,
                             name,
+                            recipe {
+                                ingrediant {
+                                    name
+                                },
+                                quantity
+                            }
                         }
                     }
                 `;
-                response = await Query(q, { drink: { name: drinkName, recipe } });
+                response = await Query(q, { drink: { name: name, recipe } });
                 whiskeyDrinkId = response.data.id;
             });
             it('Then I get back my mixed Drink', async () => {
-                const drink = R.path(['data', 'drink'], response);
-                expect(response.status).to.equal(200);
-                expect(drink).to.have.property('id');
-                expect(drink).to.have.property('name', drinkName);
+                Validate.drink({ name, recipe }, response);
             });
             it('And I can now retrieve the mixed drink using its Id', async () => {
                 const q = `#graphql
-                    query GetDrink($drinkId: ID!) {
+                    query GetDrink($drinkId: UUID!) {
                         drink(id:  $id) {
                             id,
                             name,
@@ -82,26 +75,17 @@ describe('Scenario: Creating Drinks', () => {
                         }
                     }
                 `;
-                const getDrinkResponse = await Query(q, { drinkId: response.data.id });
-                const drink = R.path(['data', 'drink'], getDrinkResponse);
-                expect(getDrinkResponse.status).to.equal(200);
-                expect(drink).to.have.property('id');
-                expect(drink).to.have.property('name', drinkName);
-                expect(drink).to.have.property('recipe').to.be.instanceOf(Array);
-                expect(drink.recipe[0]).to.have.property('ingrediant').to.have.property('name', 'whiskey');
-                expect(drink.recipe[0]).to.have.property('quantity', '2oz');
+                const getDrinkResponse = await Query(q, { drinkId: whiskeyDrinkId });
+                Validate.drink({ name, recipe }, getDrinkResponse);
             });
         });
-    });
-
-    describe("Given a drink, it's recipe, and it's tags", () => {
-        const drinkName = 'whiskey sour';
-        const recipe = [
-            { name: 'whiskey', quantity: '2oz' },
-            { name: 'sour mix', quantity: '1oz' },
-        ];
-        const tags = [mixedDrinkId, whiskeyDrinkId];
-        describe('When I create the drink', () => {
+        describe('When I create the drink using a name, a recipe, and tags of other drinks', () => {
+            const name = 'whiskey sour';
+            const recipe = [
+                { name: 'whiskey', quantity: '2oz' },
+                { name: 'sour mix', quantity: '1oz' },
+            ];
+            const tags = [mixedDrinkId, whiskeyDrinkId];
             let response;
             before('create the mixed drink', async () => {
                 const q = `#graphql
@@ -112,18 +96,15 @@ describe('Scenario: Creating Drinks', () => {
                         }
                     }
                 `;
-                response = await Query(q, { drink: { name: drinkName, recipe, tags } });
+                response = await Query(q, { drink: { name: name, recipe, tags } });
                 whiskeyDrinkId = response.data.id;
             });
             it('Then I get back my mixed Drink', async () => {
-                const drink = R.path(['data', 'createDrink'], response);
-                expect(response.status).to.equal(200);
-                expect(drink).to.have.property('id');
-                expect(drink).to.have.property('name', drinkName);
+                Validate.drink({ name, recipe, tags }, response);
             });
             it('And I can now retrieve the mixed drink using its Id', async () => {
                 const q = `#graphql
-                    query GetDrink($drinkId: ID!) {
+                    query GetDrink($drinkId: UUID!) {
                         drink(id:  $id) {
                             id,
                             name,
@@ -139,15 +120,8 @@ describe('Scenario: Creating Drinks', () => {
                         }
                     }
                 `;
-                const drink = R.path(['data', 'drink'], response);
                 const getDrinkResponse = await Query(q, { drinkId: response.data.id });
-                expect(getDrinkResponse.status).to.equal(200);
-                expect(drink).to.have.property('id');
-                expect(drink).to.have.property('name', drinkName);
-                expect(drink).to.have.property('recipe').to.be.instanceOf(Array);
-                expect(drink.recipe[0]).to.have.property('ingrediant').to.have.property('name', 'whiskey');
-                expect(drink.recipe[0]).to.have.property('quantity', '2oz');
-                expect(drink.tags).to.deep.include([mixedDrinkId, whiskeyDrinkId]);
+                Validate.drink({ name, recipe, tags }, getDrinkResponse);
             });
         });
     });

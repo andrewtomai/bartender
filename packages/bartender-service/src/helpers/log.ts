@@ -1,8 +1,8 @@
-const R = require('ramda');
-const chalk = require('chalk');
-const { v4: uuid } = require('uuid');
-const { performance } = require('perf_hooks');
-const environment = require('./environment');
+import * as R from 'ramda';
+import chalk from 'chalk';
+import { v4 as uuid } from 'uuid';
+import { performance } from 'perf_hooks';
+import * as Environment from './Environment';
 //= ==============================================
 const LOG_LEVELS = {
     info: 4,
@@ -17,12 +17,15 @@ const green = colorizeAny(chalk.green);
 const orange = colorizeAny(chalk.keyword('orange'));
 const red = colorizeAny(chalk.bold.red);
 class Logger {
+    logLevel: number;
+    colorize: boolean;
+    timeTable: Record<string, { start: number; message: string }>;
     // internal variables:
     // logLevel :: int
     // colorize :: boolean
     constructor(logLevel = process.env.LOG_LEVEL) {
-        this.logLevel = environment.isExecutingInLambda() ? 1000 : Number(logLevel);
-        this.colorize = !environment.isExecutingInLambda();
+        this.logLevel = Environment.isExecutingInLambda() ? 1000 : Number(logLevel);
+        this.colorize = !Environment.isExecutingInLambda();
         this.timeTable = {};
     }
 
@@ -91,4 +94,4 @@ class Logger {
 //     return logger;
 // };
 // getLogger();
-module.exports = new Logger();
+export default new Logger();

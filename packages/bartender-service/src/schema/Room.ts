@@ -2,12 +2,12 @@ import { gql } from 'apollo-server-lambda';
 
 const RoomSchema = gql`
     extend type Query {
-        room(roomId: ID!): Room
+        room(roomId: UUID!): Room
     }
 
     extend type Mutation {
         createRoom(input: RoomInput!): Room!
-        deleteRoom(id: ID!): Room
+        deleteRoom(id: UUID!): Room
     }
 
     input RoomInput {
@@ -16,7 +16,7 @@ const RoomSchema = gql`
     }
 
     type Room {
-        id: ID!
+        id: UUID!
         name: String!
         description: String
         occupants: [Occupant]!

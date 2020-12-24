@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-lambda';
 
 const UserSchema = gql`
     extend type Query {
-        user(userId: ID!): User
+        user(userId: UUID!): User
         occupant(occupant: OccupantInput!): Occupant
     }
 
@@ -10,12 +10,12 @@ const UserSchema = gql`
         createUser(user: UserInput!): User!
         joinRoom(occupant: OccupantInput!): Occupant
         leaveRoom(occupant: OccupantInput!): Occupant
-        updatePreferences(occupantId: ID!, preferences: [DrinkPreferenceInput]!): Occupant
+        updatePreferences(occupantId: UUID!, preferences: [DrinkPreferenceInput]!): Occupant
     }
 
     input OccupantInput {
-        userId: ID!
-        roomId: ID!
+        userId: UUID!
+        roomId: UUID!
     }
 
     input UserInput {
@@ -23,11 +23,11 @@ const UserSchema = gql`
     }
 
     input DrinkPreferenceInput {
-        id: ID!
+        id: UUID!
     }
 
     type User {
-        id: ID!
+        id: UUID!
         occupancies: [Occupant]!
         name: String!
     }

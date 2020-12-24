@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-lambda';
 
 const DrinkSchema = gql`
     extend type Query {
-        drink(id: ID!): Drink
+        drink(id: UUID!): Drink
         listDrinks(query: DrinkQuery!): [Drink]!
     }
 
@@ -18,7 +18,7 @@ const DrinkSchema = gql`
     input DrinkInput {
         name: String!
         recipe: [QuantifiedIngrediantInput]
-        tags: [ID]
+        tags: [UUID]
     }
 
     input QuantifiedIngrediantInput {
@@ -27,19 +27,19 @@ const DrinkSchema = gql`
     }
 
     type Drink {
-        id: ID!
+        id: UUID!
         name: String!
         recipe: [QuantifiedIngrediant]
         tags: [Drink]
     }
 
     type Ingrediant {
-        id: ID!
+        id: UUID!
         name: String!
     }
 
     type QuantifiedIngrediant {
-        id: ID!
+        id: UUID!
         ingrediant: Ingrediant!
         quantity: String!
     }

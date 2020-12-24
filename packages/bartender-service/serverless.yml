@@ -20,7 +20,7 @@ provider:
         - arn:aws:dynamodb:*:*:table/${self:custom.table-name}/index/* # The indexes for the table
   environment:
     REVERSE_LOOKUP_INDEX: ${self:custom.reverse-lookup-index-name}
-    TABLE_NAME: ${self:custom.table-name}
+    BARTENDER_TABLE_NAME: ${self:custom.table-name}
     STAGE: ${self:provider.stage}
 plugins:
   - serverless-webpack
