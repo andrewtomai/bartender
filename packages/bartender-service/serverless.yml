@@ -41,6 +41,13 @@ functions:
         path: graphql
         method: get
         cors: true
+  ping:
+    handler: src/index.ping
+    events:
+      - http:
+          path: ping
+          method: get
+          cors: true
 
 resources:
   Resources:

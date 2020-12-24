@@ -8,6 +8,7 @@ describe('Scenario: Interacting with Drinks', () => {
             const name = 'mixed drink';
             let response;
             before('create the mixed drink', async () => {
+                console.log('yes');
                 const q = `#graphql
                     mutation CreateDrink($drink: DrinkInput!) {
                         createDrink(drink: $drink) {
@@ -17,6 +18,8 @@ describe('Scenario: Interacting with Drinks', () => {
                     }
                 `;
                 response = await Query(q, { drink: { name } });
+                console.log(response);
+                console.log(response.data);
                 mixedDrinkId = response.data.createDrink.id;
             });
             it('Then I get back my mixed Drink', async () => {
@@ -35,7 +38,7 @@ describe('Scenario: Interacting with Drinks', () => {
                 Validate.drink({ name }, getDrinkResponse);
             });
         });
-        describe('When I create the drink using a name and a recipe', () => {
+        describe.skip('When I create the drink using a name and a recipe', () => {
             const name = 'whiskey';
             const recipe = [{ name: 'whiskey', quantity: '2oz' }];
             let response;
@@ -79,7 +82,7 @@ describe('Scenario: Interacting with Drinks', () => {
                 Validate.drink({ name, recipe }, getDrinkResponse);
             });
         });
-        describe('When I create the drink using a name, a recipe, and tags of other drinks', () => {
+        describe.skip('When I create the drink using a name, a recipe, and tags of other drinks', () => {
             const name = 'whiskey sour';
             const recipe = [
                 { name: 'whiskey', quantity: '2oz' },
