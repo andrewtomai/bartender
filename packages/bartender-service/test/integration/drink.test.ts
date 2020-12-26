@@ -8,7 +8,6 @@ describe('Scenario: Interacting with Drinks', () => {
             const name = 'mixed drink';
             let response;
             before('create the mixed drink', async () => {
-                console.log('yes');
                 const q = `#graphql
                     mutation CreateDrink($drink: DrinkInput!) {
                         createDrink(drink: $drink) {
@@ -18,8 +17,6 @@ describe('Scenario: Interacting with Drinks', () => {
                     }
                 `;
                 response = await Query(q, { drink: { name } });
-                console.log(response);
-                console.log(response.data);
                 mixedDrinkId = response.data.createDrink.id;
             });
             it('Then I get back my mixed Drink', async () => {
