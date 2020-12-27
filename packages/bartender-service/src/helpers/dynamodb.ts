@@ -3,8 +3,8 @@ import * as R from 'ramda';
 import * as Environment from './Environment';
 import Log from './Log';
 
-const getClient = () => {
-    const configuration = Environment.isOffline()
+export const clientConfiguration = (isOffline: boolean): AWS.DynamoDB.ClientConfiguration =>
+    isOffline
         ? {
               apiVersion: '2012-08-10',
               region: 'localhost',
@@ -13,6 +13,9 @@ const getClient = () => {
               secretAccessKey: 'DEFAULT_SECRET', // needed if you don't have aws credentials at all in env
           }
         : { apiVersion: '2012-08-10' };
+
+const getClient = () => {
+    const configuration = clientConfiguration(Environment.isOffline());
     return new AWS.DynamoDB(configuration);
 };
 
@@ -37,13 +40,14 @@ type PutItemRequest = {
 };
 
 // If item is truthy, then unmarshall it
-const unmarshallOrNull = (item) => (item ? (AWS.DynamoDB.Converter.unmarshall(item) as DatabaseItem) : null);
+const unmarshallOrNull = (item?: AWS.DynamoDB.AttributeMap): DatabaseItem | null =>
+    item ? (AWS.DynamoDB.Converter.unmarshall(item) as DatabaseItem) : null;
 
 // Returns true if the batch is empty
-const batchIsEmpty = (batch): boolean => batch.length === 0;
+export const batchIsEmpty = (batch: unknown[]): boolean => batch.length === 0;
 
 // Returns true if the batch is too large
-const batchIsTooLarge = (batch): boolean => batch.length > 25;
+export const batchIsTooLarge = (batch: unknown[]): boolean => batch.length > 25;
 
 // This method puts an item to dynamodb
 // @sig putItem :: (Object) -> Promise
