@@ -3,33 +3,38 @@ import * as R from 'ramda';
 import * as DynamoDb from '../helpers/dynamodb';
 import { Maybe, Drink, DrinkInput } from '../generated/graphql-types';
 
-const extractDrinkId = (databaseDrinkId: string) => databaseDrinkId.split('DRINK#').join('');
-const extractTagId = (databaseTagId: string) => databaseTagId.split('TAG#').join('');
+const DRINK_ID_PREFIX = 'DRINK#';
+const TAG_ID_PREFIX = 'TAG#';
 
-const enrichDatabaseDrinkId = (id: string) => `DRINK#${id}`;
-const enrichDatabaseTagId = (id: string) => `TAG#${id}`;
+const extractDrinkId = (databaseDrinkId: string) => databaseDrinkId.split(DRINK_ID_PREFIX).join('');
+const extractTagId = (databaseTagId: string) => databaseTagId.split(TAG_ID_PREFIX).join('');
+
+const enrichDatabaseDrinkId = (id: string) => `${DRINK_ID_PREFIX}${id}`;
+const enrichDatabaseTagId = (id: string) => `${TAG_ID_PREFIX}${id}`;
 
 // Enrich for retrieval from the database
-const enrichInputDrink = (drinkId: string, name: string): DynamoDb.DatabaseDrink => ({
+export const enrichInputDrink = (drinkId: string, name: string): DynamoDb.DatabaseDrink => ({
     ...enrichDrinkKeyPair(drinkId),
     createdAt: new Date().toISOString(),
     name,
 });
 
-const enrichInputTags = (drinkId: string) => (tagId: string): DynamoDb.DatabaseKeyPair => ({
+export const enrichInputTags = (drinkId: string) => (tagId: string): DynamoDb.DatabaseKeyPair => ({
     primaryId: enrichDatabaseDrinkId(drinkId),
     secondaryId: enrichDatabaseTagId(tagId),
 });
 
-const enrichDrinkKeyPair = (drinkId: string): DynamoDb.DatabaseKeyPair => ({
+export const enrichDrinkKeyPair = (drinkId: string): DynamoDb.DatabaseKeyPair => ({
     primaryId: enrichDatabaseDrinkId(drinkId),
     secondaryId: enrichDatabaseDrinkId(drinkId),
 });
 
 // Format for output from database
-const formatTag = (databaseTag: DynamoDb.DatabaseItem) => ({ id: extractTagId(databaseTag.secondaryId) });
+export const formatTag = (databaseTag: DynamoDb.DatabaseItem): Partial<Drink> => ({
+    id: extractTagId(databaseTag.secondaryId),
+});
 
-const formatDrink = (databaseDrink: DynamoDb.DatabaseDrink, databaseTags?: DynamoDb.DatabaseItem[]): Drink => ({
+export const formatDrink = (databaseDrink: DynamoDb.DatabaseDrink, databaseTags?: DynamoDb.DatabaseItem[]): Drink => ({
     id: extractDrinkId(databaseDrink.primaryId),
     name: databaseDrink.name,
     tags: databaseTags ? R.map(formatTag, databaseTags) : null,
