@@ -48,8 +48,9 @@
     "deploy": "serverless deploy",
     "test": "mocha test/unit --recursive",
     "integration": "export TEST_STAGE='local'; ts-mocha './test/integration/**/*.ts'",
+    "integration:watch": "export TEST_STAGE='local'; ts-mocha './test/integration/**/*.ts' --watch --watch-files .webpack/**/*,test/**/*",
     "integration:ci": "start-server-and-test 'yarn start' http-get://localhost:4000/local/ping 'yarn integration'",
-    "integration:staging": "export TEST_STAGE='staging'; ts-mocha './test/integration/**/*.ts'",
+    "integration:dev": "export TEST_STAGE='dev'; ts-mocha './test/integration/**/*.ts'",
     "integration:prod": "export TEST_STAGE='prod'; ts-mocha './test/integration/**/*.ts'",
     "generate-types": "graphql-codegen --config .graphqlrc.yml"
   }

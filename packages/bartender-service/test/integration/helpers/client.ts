@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import url from 'url';
 import fs from 'fs';
+import { DrinkInput } from '../../../src/generated/graphql-types';
 import * as Environment from './Environment';
 
 const readStackFile = () => {
@@ -31,9 +32,16 @@ type GraphqlVariables = {
 
 type GraphqlResponse = {
     status: number;
-    data?: unknown;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data?: Record<string, any>;
     errors?: unknown;
 };
+
+const graphqlResponse = (axiosResponse: AxiosResponse): GraphqlResponse => ({
+    data: axiosResponse.data.data,
+    status: axiosResponse.status,
+    errors: axiosResponse.data.errors,
+});
 
 const query = (graphqlQuery: string, variables?: GraphqlVariables): Promise<GraphqlResponse> => {
     const client = axios.create({
@@ -48,10 +56,28 @@ const query = (graphqlQuery: string, variables?: GraphqlVariables): Promise<Grap
         .then(graphqlResponse);
 };
 
-const graphqlResponse = (axiosResponse: AxiosResponse): GraphqlResponse => ({
-    data: axiosResponse.data.data,
-    status: axiosResponse.status,
-    errors: axiosResponse.data.errors,
-});
+export const createDrink = async ({ name, tags, recipe }: DrinkInput): Promise<GraphqlResponse> => {
+    return await query(
+        `#graphql
+            mutation CreateDrink($drink: DrinkInput!) {
+                createDrink(drink: $drink) {
+                    id,
+                    name,
+                    recipe {
+                        ingrediant {
+                            name
+                        },
+                        quantity
+                    },
+                    tags {
+                        id,
+                        name
+                    }
+                }
+            }
+        `,
+        { drink: { name, tags, recipe } },
+    );
+};
 
 export default query;

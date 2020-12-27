@@ -7,6 +7,9 @@ const resolvers = {
     Query: { drink: Drink.drinkResolver },
     Mutation: { createDrink: Drink.createDrinkResolver },
     UUID: GraphQLUUID,
+    Drink: {
+        tags: Drink.tagsForDrinkResolver,
+    },
 };
 
 export default resolvers;
