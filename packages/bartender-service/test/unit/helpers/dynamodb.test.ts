@@ -43,4 +43,67 @@ describe('Scenario: using dynamodb helpers', () => {
             it('And the batch is not too large', () => expect(DynamoDB.batchIsTooLarge(batch)).to.equal(true));
         });
     });
+
+    describe('Given I want to calculate expression attribute values for a query', () => {
+        describe('When I supply a primary and secondary key, and the main table index ', () => {
+            it('Then I get two attribute values', () => {
+                const actual = DynamoDB.expressionAttributeValues(
+                    { primaryId: 'hello', secondaryId: 'world' },
+                    DynamoDB.IndexName.main,
+                );
+                expect(actual).to.have.property(':sk').deep.equal({ S: 'world' });
+                expect(actual).to.have.property(':pk').deep.equal({ S: 'hello' });
+            });
+        });
+        describe('When I supply just a primary key', () => {
+            it('Then I get back one attribute value', () => {
+                const actual = DynamoDB.expressionAttributeValues({ primaryId: 'hello' }, DynamoDB.IndexName.main);
+                expect(actual).to.have.property(':pk').deep.equal({ S: 'hello' });
+            });
+        });
+        describe('When I supply just a secondary key, and the reverseLookup index', () => {
+            it('Then I get back one attribute value', () => {
+                const actual = DynamoDB.expressionAttributeValues(
+                    { secondaryId: 'hello' },
+                    DynamoDB.IndexName.reverseLookup,
+                );
+                expect(actual).to.have.property(':pk').deep.equal({ S: 'hello' });
+            });
+        });
+    });
+
+    describe('Given I want to caclculate a key condition expression', () => {
+        describe('When I want to query the reverse lookup, and supply just a secondary id', () => {
+            it('Then I get back a single variable key condition expression', () => {
+                const actual = DynamoDB.keyExpression({ secondaryId: 'hello' }, DynamoDB.IndexName.reverseLookup);
+                expect(actual).to.equal('secondaryId = :pk');
+            });
+        });
+        describe('When I want to query the reverse lookup, I supply a secondary id and a primary id', () => {
+            it('Then I get back a two variable key condition expression using the GT operator', () => {
+                const actual = DynamoDB.keyExpression(
+                    {
+                        secondaryId: 'hello',
+                        primaryId: 'world',
+                    },
+                    DynamoDB.IndexName.reverseLookup,
+                    DynamoDB.SortKeyOperation.GT,
+                );
+                expect(actual).to.equal('secondaryId = :pk AND primaryId > :sk');
+            });
+        });
+        describe('When I supply just a secondary id and a primary id, and the BEGINS_WITH operator', () => {
+            it('Then I get back a two variable key condition expression using the BEGINS_WITH operator', () => {
+                const actual = DynamoDB.keyExpression(
+                    {
+                        secondaryId: 'hello',
+                        primaryId: 'world',
+                    },
+                    DynamoDB.IndexName.main,
+                    DynamoDB.SortKeyOperation.BEGINS_WITH,
+                );
+                expect(actual).to.equal('primaryId = :pk AND begins_with(secondaryId, :sk)');
+            });
+        });
+    });
 });

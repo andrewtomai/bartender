@@ -64,9 +64,8 @@ export const createDrink = async ({ name, tags, recipe }: DrinkInput): Promise<G
                     id,
                     name,
                     recipe {
-                        ingrediant {
-                            name
-                        },
+                        id,
+                        name,
                         quantity
                     },
                     tags {
