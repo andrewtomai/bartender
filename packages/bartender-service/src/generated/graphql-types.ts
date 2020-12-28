@@ -148,13 +148,13 @@ export type Occupant = {
 
 export type DrinkQuery = {
   name?: Maybe<Scalars['String']>;
-  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
+  tags?: Maybe<Array<Scalars['String']>>;
 };
 
 export type DrinkInput = {
   name: Scalars['String'];
-  recipe?: Maybe<Array<Maybe<QuantifiedIngrediantInput>>>;
-  tags?: Maybe<Array<Maybe<Scalars['UUID']>>>;
+  recipe?: Maybe<Array<QuantifiedIngrediantInput>>;
+  tags?: Maybe<Array<Scalars['UUID']>>;
 };
 
 export type QuantifiedIngrediantInput = {
@@ -166,8 +166,8 @@ export type Drink = {
   __typename?: 'Drink';
   id: Scalars['UUID'];
   name: Scalars['String'];
-  recipe?: Maybe<Array<Maybe<QuantifiedIngrediant>>>;
-  tags?: Maybe<Array<Maybe<Drink>>>;
+  recipe?: Maybe<Array<QuantifiedIngrediant>>;
+  tags?: Maybe<Array<Drink>>;
 };
 
 export type Ingrediant = {
@@ -179,7 +179,7 @@ export type Ingrediant = {
 export type QuantifiedIngrediant = {
   __typename?: 'QuantifiedIngrediant';
   id: Scalars['UUID'];
-  ingrediant: Ingrediant;
+  name: Scalars['String'];
   quantity: Scalars['String'];
 };
 
@@ -372,8 +372,8 @@ export type OccupantResolvers<ContextType = any, ParentType extends ResolversPar
 export type DrinkResolvers<ContextType = any, ParentType extends ResolversParentTypes['Drink'] = ResolversParentTypes['Drink']> = {
   id?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  recipe?: Resolver<Maybe<Array<Maybe<ResolversTypes['QuantifiedIngrediant']>>>, ParentType, ContextType>;
-  tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Drink']>>>, ParentType, ContextType>;
+  recipe?: Resolver<Maybe<Array<ResolversTypes['QuantifiedIngrediant']>>, ParentType, ContextType>;
+  tags?: Resolver<Maybe<Array<ResolversTypes['Drink']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -385,7 +385,7 @@ export type IngrediantResolvers<ContextType = any, ParentType extends ResolversP
 
 export type QuantifiedIngrediantResolvers<ContextType = any, ParentType extends ResolversParentTypes['QuantifiedIngrediant'] = ResolversParentTypes['QuantifiedIngrediant']> = {
   id?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
-  ingrediant?: Resolver<ResolversTypes['Ingrediant'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   quantity?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+import * as R from 'ramda';
 import { createDrink } from './helpers/client';
 import * as Validate from './helpers/Validate';
 
@@ -23,10 +25,24 @@ describe('Scenario: Interacting with Drinks', () => {
                 Validate.createdDrink({ name, tags: expectedTags }, response);
             });
         });
-    });
-    describe.skip('When I create the drink using a name and a recipe', () => {
-        // const name = 'whiskey';
-        // const recipe = [{ name: 'whiskey', quantity: '2oz' }];
-        // let response;
+        describe('When I create the drink using a name and a recipe', () => {
+            const name = 'whiskey';
+            const recipe = [{ name: 'whiskey', quantity: '2oz' }];
+            let ingrediantId;
+            it('Then I get back my whiskey drink with its recipe', async () => {
+                const response = await createDrink({ name, recipe });
+                ingrediantId = R.path(['data', 'createDrink', 'recipe', 0, 'id'], response);
+                Validate.createdDrink({ name, recipe }, response);
+            });
+            it('And upon creating the drink again, the previous ingrediant id is re-used', async () => {
+                const response = await createDrink({ name, recipe });
+                Validate.createdDrink({ name, recipe }, response);
+                const secondIngrediantId = R.path(['data', 'createDrink', 'recipe', 0, 'id'], response);
+                expect(secondIngrediantId).to.equal(
+                    ingrediantId,
+                    'The ingrediant from the second recipe was not re-used',
+                );
+            });
+        });
     });
 });

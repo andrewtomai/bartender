@@ -9,6 +9,7 @@ const resolvers = {
     UUID: GraphQLUUID,
     Drink: {
         tags: Drink.tagsForDrinkResolver,
+        recipe: Drink.recipeForDrinkResolver,
     },
 };
 

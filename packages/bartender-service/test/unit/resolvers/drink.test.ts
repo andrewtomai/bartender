@@ -5,12 +5,22 @@ import * as Drink from '../../../src/resolvers/Drink';
 describe('Scenario: using drink resolver helpers', () => {
     describe('Given a drink Id', () => {
         const drinkId = 'my drink uuid';
+        const drinkName = 'my drink name';
         describe('When I enrich it to create a database key pair', () => {
             it('Then I get a database key pair', () => {
                 const actual = Drink.enrichDrinkKeyPair(drinkId);
                 expect(actual).to.deep.equal({
                     primaryId: 'DRINK#my drink uuid',
                     secondaryId: 'DRINK#my drink uuid',
+                });
+            });
+        });
+        describe('When I enrich it to create a database key pair, using a set secondaryId', () => {
+            it('Then I get a database key pair', () => {
+                const actual = Drink.enrichDrinkKeyPair(drinkId, 'secondary id here');
+                expect(actual).to.deep.equal({
+                    primaryId: 'DRINK#my drink uuid',
+                    secondaryId: 'secondary id here',
                 });
             });
         });
@@ -51,10 +61,7 @@ describe('Scenario: using drink resolver helpers', () => {
             secondaryId: 'TAG#my tag id',
         };
         describe('When I format it as a Tag', () => {
-            it('Then I get back partial of a Drink', () =>
-                expect(Drink.formatTag(databaseTag)).to.deep.equal({
-                    id: 'my tag id',
-                }));
+            it('Then I get back partial of a Drink', () => expect(Drink.pluckTagId(databaseTag)).to.equal('my tag id'));
         });
     });
     describe('Given a Database Drink', () => {
@@ -70,7 +77,6 @@ describe('Scenario: using drink resolver helpers', () => {
                 expect(actual).to.deep.equal({
                     id: 'my drink uuid',
                     name: 'my name',
-                    tags: null,
                 });
             });
         });

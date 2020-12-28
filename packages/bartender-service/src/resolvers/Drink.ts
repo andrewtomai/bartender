@@ -1,69 +1,71 @@
 import { v4 as uuid } from 'uuid';
 import * as R from 'ramda';
 import * as DynamoDb from '../helpers/dynamodb';
-import { Maybe, Drink, DrinkInput } from '../generated/graphql-types';
-
-const DRINK_ID_PREFIX = 'DRINK#';
-const TAG_ID_PREFIX = 'TAG#';
-
-const extractDrinkId = (databaseDrinkId: string) => databaseDrinkId.split(DRINK_ID_PREFIX).join('');
-const extractTagId = (databaseTagId: string) => databaseTagId.split(TAG_ID_PREFIX).join('');
-
-const enrichDatabaseDrinkId = (id: string) => `${DRINK_ID_PREFIX}${id}`;
-const enrichDatabaseTagId = (id: string) => `${TAG_ID_PREFIX}${id}`;
+import { Maybe, Drink, DrinkInput, QuantifiedIngrediant } from '../generated/graphql-types';
+import * as Id from './Id';
+import * as Ingrediant from './Ingrediant';
 
 // Enrich for retrieval from the database
-export const enrichInputDrink = (drinkId: string, name: string): DynamoDb.DatabaseDrink => ({
+export const enrichInputDrink = (drinkId: string, name: string): DynamoDb.DatabaseNamedItem => ({
     ...enrichDrinkKeyPair(drinkId),
     createdAt: new Date().toISOString(),
     name,
 });
 
+// Given a drinkId and a tagId, enrich it to become a database key pair
 export const enrichInputTags = (drinkId: string) => (tagId: string): DynamoDb.DatabaseKeyPair => ({
-    primaryId: enrichDatabaseDrinkId(drinkId),
-    secondaryId: enrichDatabaseTagId(tagId),
+    primaryId: Id.enrichDatabaseDrinkId(drinkId),
+    secondaryId: Id.enrichDatabaseTagId(tagId),
 });
 
-export const enrichDrinkKeyPair = (drinkId: string): DynamoDb.DatabaseKeyPair => ({
-    primaryId: enrichDatabaseDrinkId(drinkId),
-    secondaryId: enrichDatabaseDrinkId(drinkId),
+// Given a drinkId, enrich it to become a database key pair
+export const enrichDrinkKeyPair = (drinkId: string, secondaryId?: string): DynamoDb.DatabaseKeyPair => ({
+    primaryId: Id.enrichDatabaseDrinkId(drinkId),
+    secondaryId: secondaryId ?? Id.enrichDatabaseDrinkId(drinkId),
 });
 
-// Format for output from database
-export const formatTag = (databaseTag: DynamoDb.DatabaseItem): Partial<Drink> => ({
-    id: extractTagId(databaseTag.secondaryId),
-});
+// Given a tag from a databasee, format it for output from graphql
+export const pluckTagId = (databaseTag: DynamoDb.DatabaseItem): string => Id.extractTagId(databaseTag.secondaryId);
 
-export const formatDrink = (databaseDrink: DynamoDb.DatabaseDrink, databaseTags?: DynamoDb.DatabaseItem[]): Drink => ({
-    id: extractDrinkId(databaseDrink.primaryId),
+// Given a drink from a database, and tags from a database, format the drink for graphql output
+export const formatDrink = (databaseDrink: DynamoDb.DatabaseNamedItem): Drink => ({
+    id: Id.extractDrinkId(databaseDrink.primaryId),
     name: databaseDrink.name,
-    tags: databaseTags ? R.map(formatTag, databaseTags) : null,
 });
 
+// Resolvers =======================================================================================
 export const drinkResolver = async (parent: unknown, args: { id: string }): Promise<Maybe<Drink>> => {
     const { id } = args;
-    const databaseId = enrichDatabaseDrinkId(id);
+    const databaseId = Id.enrichDatabaseDrinkId(id);
     const drink = await DynamoDb.getItem({ primaryId: databaseId, secondaryId: databaseId });
     if (!drink) return null;
     return {
-        id: extractDrinkId(drink.primaryId),
+        id: Id.extractDrinkId(drink.primaryId),
         name: drink.name as string,
     };
 };
 
+export const recipeForDrinkResolver = async (parent: Drink): Promise<QuantifiedIngrediant[]> => {
+    const { id } = parent;
+    const ingrediantItems = await DynamoDb.queryTable(enrichDrinkKeyPair(id, Id.INGREDIANT_ID_PREFIX));
+    return R.map(Ingrediant.formatQuantifiedIngrediant, ingrediantItems);
+};
+
 export const tagsForDrinkResolver = async (parent: Drink): Promise<Drink[]> => {
-    const { tags } = parent;
-    const ids = R.pluck('id', tags);
-    const tagKeyPairs: DynamoDb.DatabaseKeyPair[] = R.map(enrichDrinkKeyPair, ids);
-    const tagItems = await DynamoDb.getItems(tagKeyPairs);
-    return R.map(formatDrink, tagItems);
+    const { id } = parent;
+    const tagItems = await DynamoDb.queryTable(enrichDrinkKeyPair(id, Id.TAG_ID_PREFIX));
+    const drinkIds = R.map(pluckTagId, tagItems);
+    const drinkKeyPairs: DynamoDb.DatabaseKeyPair[] = R.map(enrichDrinkKeyPair, drinkIds);
+    const drinkItems = await DynamoDb.getItems(drinkKeyPairs);
+    return R.map(formatDrink, drinkItems);
 };
 
 export const createDrinkResolver = async (parent: unknown, args: { drink: DrinkInput }): Promise<Drink> => {
-    const { name, tags = [] } = args.drink;
+    const { name, tags = [], recipe = [] } = args.drink;
     const id = uuid();
     const drinkItem = enrichInputDrink(id, name);
     const tagItems = R.map(enrichInputTags(id), tags);
-    await DynamoDb.putItems([drinkItem, ...tagItems]);
-    return formatDrink(drinkItem, tagItems);
+    const ingrediantItems = await Ingrediant.enrichInputRecipe(id, recipe);
+    await DynamoDb.putItems([drinkItem, ...tagItems, ...ingrediantItems]);
+    return formatDrink(drinkItem);
 };
