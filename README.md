@@ -3,7 +3,7 @@ This project is an attempt to create a web-app that does fun stuff related to al
 
 ## Getting started 
 ```bash
-yarn lerna bootstrap
+yarn
 ```
 
 ## What does this project do?
