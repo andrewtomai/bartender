@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap",
     "lint-staged": "lint-staged",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --fix"
+    "lint": "eslint '*/**/*.{js,ts,tsx}'"
   },
   "author": "Andrew Tomai",
   "license": "ISC",
