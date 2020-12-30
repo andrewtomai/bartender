@@ -3,7 +3,7 @@ import * as R from 'ramda';
 import * as DynamoDb from '../helpers/dynamodb';
 import { Maybe, Drink, DrinkInput, QuantifiedIngrediant } from '../generated/graphql-types';
 import * as Id from './Id';
-import * as Ingrediant from './Ingrediant'
+import * as Ingrediant from './Ingrediant';
 
 // Enrich for retrieval from the database
 export const enrichInputDrink = (drinkId: string, name: string): DynamoDb.DatabaseNamedItem => ({
