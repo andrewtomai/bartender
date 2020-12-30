@@ -9,6 +9,36 @@ on:
       - master
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      # checkout the codebase
+      - uses: actions/checkout@v2
+      # cache node modules and other dependencies
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            **/node_modules
+            **/.dynamodb
+          key: ${{ runner.os }}-node-dependencies-${{ hashFiles('**/yarn.lock') }}
+      # setup the node environment
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+      # install dependencies and bootstrap monorepo
+      - name: Install Dependencies
+        run: yarn
+      - name: Lint the code
+        run: yarn lint
+      - uses: EndBug/add-and-commit@v6 # You can change this to use a specific version
+        with:
+          # The message for the commit
+          # Default: 'Commit from GitHub Actions (name of the workflow)'
+          message: 'Automatically fixing (some) linting issues.'
+          # Token to use for pushing the commit. The default value won't trigger any workflows, you need to use a Personal Access Token for that.
+          # Default: secrets.GITHUB_TOKEN
+          token: ${{ secrets.GITHUB_TOKEN }}
   unit-tests:
     runs-on: ubuntu-latest
     steps:
