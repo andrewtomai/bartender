@@ -1,11 +1,9 @@
 import { expect } from 'chai';
-import * as R from 'ramda';
 import * as Drink from '../../../src/resolvers/Drink';
 
 describe('Scenario: using drink resolver helpers', () => {
     describe('Given a drink Id', () => {
         const drinkId = 'my drink uuid';
-        const drinkName = 'my drink name';
         describe('When I enrich it to create a database key pair', () => {
             it('Then I get a database key pair', () => {
                 const actual = Drink.enrichDrinkKeyPair(drinkId);
