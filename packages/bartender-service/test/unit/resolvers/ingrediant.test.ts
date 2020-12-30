@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import * as R from 'ramda';
 import * as Ingrediant from '../../../src/resolvers/Ingrediant';
 
 describe('Scenario: using ingrediant resolver helpers', () => {

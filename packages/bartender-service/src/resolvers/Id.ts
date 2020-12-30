@@ -1,4 +1,3 @@
-import * as R from 'ramda';
 export const DRINK_ID_PREFIX = 'DRINK#';
 export const TAG_ID_PREFIX = 'TAG#';
 export const INGREDIANT_ID_PREFIX = 'INGREDIANT#';
