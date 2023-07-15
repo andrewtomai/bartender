@@ -6,6 +6,7 @@ provider:
   stage: ${opt:stage, 'dev'}
 plugins:
   - serverless-esbuild
+  - serverless-dynamodb-local
   - serverless-offline
   - serverless-stack-output
 
@@ -31,5 +32,11 @@ functions:
           cors: true
 
 custom:
+  dynamodb:
+    start:
+      inMemory: true
+      migrate: true
+    stages:
+      - ${self:provider.stage}
   output:
     file: .stacks/${self:provider.stage}.stack.json
