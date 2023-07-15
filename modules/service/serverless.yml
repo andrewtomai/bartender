@@ -4,6 +4,8 @@ provider:
   region: us-west-2
   runtime: nodejs16.x
   stage: ${opt:stage, 'dev'}
+  httpApi:
+    cors: true
 plugins:
   - serverless-esbuild
   - serverless-dynamodb
@@ -12,24 +14,14 @@ plugins:
 
 functions:
   graphql:
-    # this is formatted as <FILENAME>.<HANDLER>
     handler: src/index.graphqlHandler
     events:
-      - http:
-          path: graphql
-          method: post
-          cors: true
-      - http:
-          path: graphql
-          method: get
-          cors: true
-  ping:
-    handler: src/index.ping
-    events:
-      - http:
-          path: ping
-          method: get
-          cors: true
+      - httpApi:
+          path: /
+          method: POST
+      - httpApi:
+          path: /
+          method: GET
 
 resources:
   Resources:

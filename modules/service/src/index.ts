@@ -24,10 +24,3 @@ export const graphqlHandler = startServerAndCreateLambdaHandler(
     // We will be using the Proxy V2 handler
     handlers.createAPIGatewayProxyEventV2RequestHandler(),
 );
-
-export const ping = async (): Promise<Record<string, unknown>> => ({
-    body: JSON.stringify({ message: 'ping' }),
-    isBase6eEncoded: false,
-    statusCode: 200,
-    headers: {},
-});
