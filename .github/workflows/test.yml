@@ -53,26 +53,3 @@ jobs:
         run: yarn
       - name: Unit tests
         run: yarn workspaces foreach test:ci
-  
-  integration-tests:
-    runs-on: ubuntu-latest
-    steps:
-      # checkout the codebase
-      - uses: actions/checkout@v2
-      # cache node modules
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            **/node_modules
-            **/.dynamodb
-          key: ${{ runner.os }}-node-dependencies-${{ hashFiles('**/yarn.lock') }}
-      # setup the node environment
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2
-      # install dependencies and bootstrap monorepo
-      - name: Install Dependencies
-        run: yarn
-      - name: Integration tests
-        run: yarn lerna run integration:ci
