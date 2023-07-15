@@ -1,8 +1,6 @@
-import * as R from 'ramda';
+export const isLocalTest = (): boolean => testingStage() === 'local';
 
-export const isLocalTest = (): boolean => R.equals(testingStage(), 'local');
-
-export const testingStage = (): string => R.path(['env', 'STAGE'], process);
+export const testingStage = (): string => process.env.STAGE || 'local';
 
 export const port = (): number => 3000;
 

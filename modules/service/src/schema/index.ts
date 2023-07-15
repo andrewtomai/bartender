@@ -1,20 +1,42 @@
-import { gql } from 'apollo-server-lambda';
-import RoomSchema from './Room';
-import UserSchema from './User';
-import DrinkSchema from './Drink';
+import gql from 'graphql-tag';
+
+const quantifiedIngredientFields = `#graphql
+    name: String!
+    quantity: Float!
+    unit: String!
+`;
 
 const defaultRoot = gql`
-    scalar UUID
-
     type Query {
-        _empty: String
+        drink(id: String!): Drink
     }
 
     type Mutation {
-        _empty: String
+        createDrink(drink: DrinkInput!): Drink!
+    }
+
+    input QuantifiedIngredientInput {
+        ${quantifiedIngredientFields}
+    }
+
+    type QuantifiedIngredient {
+        ${quantifiedIngredientFields}
+    }
+
+    input DrinkInput {
+        name: String!
+        recipe: [QuantifiedIngredientInput!]
+        tags: [String!]
+    }
+
+    type Drink {
+        id: String!
+        name: String!
+        recipe: [QuantifiedIngredient!]
+        tags: [String!]
     }
 `;
 
-const typeDefs = [defaultRoot, RoomSchema, UserSchema, DrinkSchema];
+const typeDefs = [defaultRoot];
 
 export default typeDefs;

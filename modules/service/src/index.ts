@@ -2,15 +2,11 @@ import { ApolloServer } from '@apollo/server';
 
 import { startServerAndCreateLambdaHandler, handlers } from '@as-integrations/aws-lambda';
 
-const typeDefs = `#graphql
-  type Query {
-    hello: String
-  }
-`;
+import typeDefs from './schema';
 
 const resolvers = {
     Query: {
-        hello: () => 'world',
+        drink: () => null,
     },
 };
 
