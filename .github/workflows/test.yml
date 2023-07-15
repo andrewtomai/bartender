@@ -14,18 +14,12 @@ jobs:
     steps:
       # checkout the codebase
       - uses: actions/checkout@v2
-      # cache node modules and other dependencies
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            **/node_modules
-            **/.dynamodb
-          key: ${{ runner.os }}-node-dependencies-${{ hashFiles('**/yarn.lock') }}
       # setup the node environment
       - name: Setup Node.js environment
         uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: yarn
       # install dependencies and bootstrap monorepo
       - name: Install Dependencies
         run: yarn
@@ -36,18 +30,12 @@ jobs:
     steps:
       # checkout the codebase
       - uses: actions/checkout@v2
-      # cache node modules and other dependencies
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            **/node_modules
-            **/.dynamodb
-          key: ${{ runner.os }}-node-dependencies-${{ hashFiles('**/yarn.lock') }}
       # setup the node environment
       - name: Setup Node.js environment
         uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: yarn
       # install dependencies and bootstrap monorepo
       - name: Install Dependencies
         run: yarn
