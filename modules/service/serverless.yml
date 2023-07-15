@@ -6,7 +6,7 @@ provider:
   stage: ${opt:stage, 'dev'}
 plugins:
   - serverless-esbuild
-  - serverless-dynamodb-local
+  - serverless-dynamodb
   - serverless-offline
   - serverless-stack-output
 

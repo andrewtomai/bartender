@@ -1,21 +1,29 @@
-// graphql.js
-import { ApolloServer } from 'apollo-server-lambda';
-import * as Environment from './helpers/Environment';
-import resolvers from './resolvers';
-import typeDefs from './schema';
+import { ApolloServer } from '@apollo/server';
+
+import { startServerAndCreateLambdaHandler, handlers } from '@as-integrations/aws-lambda';
+
+const typeDefs = `#graphql
+  type Query {
+    hello: String
+  }
+`;
+
+const resolvers = {
+    Query: {
+        hello: () => 'world',
+    },
+};
 
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    playground: { endpoint: `/${Environment.stage()}/graphql` },
 });
 
-export const graphqlHandler = server.createHandler({
-    cors: {
-        origin: '*',
-        credentials: true,
-    },
-});
+export const graphqlHandler = startServerAndCreateLambdaHandler(
+    server,
+    // We will be using the Proxy V2 handler
+    handlers.createAPIGatewayProxyEventV2RequestHandler(),
+);
 
 export const ping = async (): Promise<Record<string, unknown>> => ({
     body: JSON.stringify({ message: 'ping' }),

@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import url from 'url';
 import fs from 'fs';
-import { DrinkInput } from '../../../src/generated/graphql-types';
 import * as Environment from './Environment';
 
 const readStackFile = () => {
@@ -54,29 +53,6 @@ const query = (graphqlQuery: string, variables?: GraphqlVariables): Promise<Grap
             variables,
         })
         .then(graphqlResponse);
-};
-
-export const createDrink = async ({ name, tags, recipe }: DrinkInput): Promise<GraphqlResponse> => {
-    return await query(
-        `#graphql
-            mutation CreateDrink($drink: DrinkInput!) {
-                createDrink(drink: $drink) {
-                    id,
-                    name,
-                    recipe {
-                        id,
-                        name,
-                        quantity
-                    },
-                    tags {
-                        id,
-                        name
-                    }
-                }
-            }
-        `,
-        { drink: { name, tags, recipe } },
-    );
 };
 
 export default query;
