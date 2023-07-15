@@ -3,10 +3,10 @@ name: tests
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   lint:
@@ -31,7 +31,7 @@ jobs:
         run: yarn
       - name: Lint the code
         run: yarn lint
-  unit-tests:
+  tests:
     runs-on: ubuntu-latest
     steps:
       # checkout the codebase
@@ -52,7 +52,7 @@ jobs:
       - name: Install Dependencies
         run: yarn
       - name: Unit tests
-        run: yarn lerna run test
+        run: yarn workspaces foreach test:ci
   
   integration-tests:
     runs-on: ubuntu-latest
