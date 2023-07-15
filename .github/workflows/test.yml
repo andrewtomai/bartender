@@ -52,4 +52,4 @@ jobs:
       - name: Install Dependencies
         run: yarn
       - name: Unit tests
-        run: yarn workspaces foreach test:ci
+        run: yarn workspaces foreach run test:ci
