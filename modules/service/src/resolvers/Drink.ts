@@ -13,10 +13,12 @@ export const enrichInputDrink = (drinkId: string, name: string): DynamoDb.Databa
 });
 
 // Given a drinkId and a tagId, enrich it to become a database key pair
-export const enrichInputTags = (drinkId: string) => (tagId: string): DynamoDb.DatabaseKeyPair => ({
-    primaryId: Id.enrichDatabaseDrinkId(drinkId),
-    secondaryId: Id.enrichDatabaseTagId(tagId),
-});
+export const enrichInputTags =
+    (drinkId: string) =>
+    (tagId: string): DynamoDb.DatabaseKeyPair => ({
+        primaryId: Id.enrichDatabaseDrinkId(drinkId),
+        secondaryId: Id.enrichDatabaseTagId(tagId),
+    });
 
 // Given a drinkId, enrich it to become a database key pair
 export const enrichDrinkKeyPair = (drinkId: string, secondaryId?: string): DynamoDb.DatabaseKeyPair => ({

@@ -1,8 +1,0 @@
-{
-  "name": "@bartender/core",
-  "version": "1.0.0",
-  "description": "Core bartender logic",
-  "main": "index.js",
-  "author": "Andrew Tomai",
-  "license": "MIT"
-}

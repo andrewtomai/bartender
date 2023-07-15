@@ -49,21 +49,21 @@ export const findExistingIngrediantIds = async (ingrediantNames: []): Promise<Re
 
 // Given a drinkId and an index of existing ingrediant ids,
 // calculate the items needed to create the quantified ingrediant
-export const ingrediantItemsToWrite = (drinkId: string, ingrediantNameToIdIndex: Record<string, string>) => (
-    quantifiedIngrediantInput: QuantifiedIngrediantInput,
-): DynamoDb.DatabaseItem[] => {
-    const { name, quantity } = quantifiedIngrediantInput;
-    const existingIngrediantId = R.prop(name, ingrediantNameToIdIndex);
-    if (existingIngrediantId) {
-        // we just need to create the quantified ingrediant
-        return [enrichQuantifiedInputIngrediant(drinkId, existingIngrediantId, name, quantity)];
-    }
-    const ingrediantId = uuid();
-    return [
-        enrichQuantifiedInputIngrediant(drinkId, ingrediantId, name, quantity),
-        enrichInputIngrediant(ingrediantId, name),
-    ];
-};
+export const ingrediantItemsToWrite =
+    (drinkId: string, ingrediantNameToIdIndex: Record<string, string>) =>
+    (quantifiedIngrediantInput: QuantifiedIngrediantInput): DynamoDb.DatabaseItem[] => {
+        const { name, quantity } = quantifiedIngrediantInput;
+        const existingIngrediantId = R.prop(name, ingrediantNameToIdIndex);
+        if (existingIngrediantId) {
+            // we just need to create the quantified ingrediant
+            return [enrichQuantifiedInputIngrediant(drinkId, existingIngrediantId, name, quantity)];
+        }
+        const ingrediantId = uuid();
+        return [
+            enrichQuantifiedInputIngrediant(drinkId, ingrediantId, name, quantity),
+            enrichInputIngrediant(ingrediantId, name),
+        ];
+    };
 
 // Given a drinkId and a recipe, calculate all of the items to write to get the recipe into the database
 export const enrichInputRecipe = async (
