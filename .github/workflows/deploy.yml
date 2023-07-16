@@ -1,65 +1,65 @@
 name: tests
 # Run these on pull requests to master, and pushes to master
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      # checkout the codebase
-      - uses: actions/checkout@v2
-      # setup the node environment
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-          cache: yarn
-      # install dependencies and bootstrap monorepo
-      - name: Install Dependencies
-        run: yarn
-      - name: Lint the code
-        run: yarn lint
-  tests:
-    runs-on: ubuntu-latest
-    steps:
-      # checkout the codebase
-      - uses: actions/checkout@v2
-      # setup the node environment
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-          cache: yarn
-      # install dependencies and bootstrap monorepo
-      - name: Install Dependencies
-        run: yarn
-      - name: run tests
-        run: yarn workspaces foreach run test:ci
-  staging:
-    needs: [tests, lint]
-    runs-on: ubuntu-latest
-    steps:
-      # checkout the codebase
-      - uses: actions/checkout@v2
-      # setup the node environment
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-          cache: yarn
-      # install dependencies and bootstrap monorepo
-      - name: Install Dependencies
-        run: yarn
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: arn:aws:iam::580705461669:role/ServiceDeployment
-          aws-region: us-west-2
-      - name: Deploy to Staging
-        run: yarn workspace @bartender/service deploy --stage staging
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            # checkout the codebase
+            - uses: actions/checkout@v3
+            # setup the node environment
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '16'
+                  cache: yarn
+            # install dependencies and bootstrap monorepo
+            - name: Install Dependencies
+              run: yarn
+            - name: Lint the code
+              run: yarn lint
+    tests:
+        runs-on: ubuntu-latest
+        steps:
+            # checkout the codebase
+            - uses: actions/checkout@v3
+            # setup the node environment
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '16'
+                  cache: yarn
+            # install dependencies and bootstrap monorepo
+            - name: Install Dependencies
+              run: yarn
+            - name: run tests
+              run: yarn workspaces foreach run test:ci
+    staging:
+        needs: [tests, lint]
+        runs-on: ubuntu-latest
+        steps:
+            # checkout the codebase
+            - uses: actions/checkout@v3
+            # setup the node environment
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '16'
+                  cache: yarn
+            # install dependencies and bootstrap monorepo
+            - name: Install Dependencies
+              run: yarn
+            - name: Configure AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v2
+              with:
+                  role-to-assume: arn:aws:iam::580705461669:role/ServiceDeployment
+                  aws-region: us-west-2
+            - name: Deploy to Staging
+              run: yarn workspace @bartender/service deploy --stage staging
