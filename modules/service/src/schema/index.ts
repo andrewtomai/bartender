@@ -2,8 +2,8 @@ import gql from 'graphql-tag';
 
 const quantifiedIngredientFields = `#graphql
     name: String!
-    quantity: Float!
-    unit: String!
+    quantity: Float
+    unit: String
 `;
 
 const defaultRoot = gql`

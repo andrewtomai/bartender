@@ -1,19 +1,42 @@
-import AWS from 'aws-sdk';
+import { DynamoDBClient, DynamoDBClientConfig } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocument, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 import * as Environment from './Environment';
 // import Log from './Log';
 
-export const clientConfiguration = (isOffline: boolean): AWS.DynamoDB.ClientConfiguration =>
+export const clientConfiguration = (isOffline: boolean): DynamoDBClientConfig =>
     isOffline
         ? {
               apiVersion: '2012-08-10',
               region: 'localhost',
               endpoint: `http://localhost:8000`,
-              accessKeyId: 'DEFAULT_ACCESS_KEY', // needed if you don't have aws credentials at all in env
-              secretAccessKey: 'DEFAULT_SECRET', // needed if you don't have aws credentials at all in env
           }
         : { apiVersion: '2012-08-10' };
 
-export const getClient = () => {
-    const configuration = clientConfiguration(Environment.isOffline());
-    return new AWS.DynamoDB(configuration);
-};
+const client = DynamoDBDocument.from(new DynamoDBClient(clientConfiguration(Environment.isOffline())));
+
+export const putObject = <T>(primaryId: string, secondaryId: string, value: T) =>
+    client.send(
+        new PutCommand({
+            TableName: Environment.tableName(),
+            Item: {
+                primaryId,
+                secondaryId,
+                ...value,
+            },
+        }),
+    );
+
+export const getObject = <T>(primaryId: string, secondaryId: string): Promise<T> =>
+    client
+        .send(
+            new GetCommand({
+                TableName: Environment.tableName(),
+                Key: {
+                    primaryId,
+                    secondaryId,
+                },
+            }),
+        )
+        .then((result) => {
+            return result.Item as T;
+        });

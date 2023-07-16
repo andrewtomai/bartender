@@ -6,7 +6,7 @@
   "author": "Andrew Tomai",
   "license": "MIT",
   "scripts": {
-    "start": "serverless offline start",
+    "start": "serverless offline start --reloadHandler",
     "postinstall": "serverless dynamodb install",
     "test": "jest",
     "test:ci": "start-server-and-test 'yarn start' tcp:localhost:3000 'yarn test'"
@@ -29,6 +29,9 @@
   "dependencies": {
     "@apollo/server": "^4.7.5",
     "@as-integrations/aws-lambda": "^2.0.1",
+    "@aws-sdk/client-dynamodb": "^3.370.0",
+    "@aws-sdk/lib-dynamodb": "^3.370.0",
+    "@paralleldrive/cuid2": "^2.2.1",
     "chalk": "^5.3.0",
     "graphql": "^16.7.1",
     "graphql-tag": "^2.12.6",

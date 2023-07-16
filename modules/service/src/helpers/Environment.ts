@@ -3,3 +3,5 @@ export const isExecutingInLambda = (): string | undefined => process.env.AWS_LAM
 
 // returns truthy if the execution is occurring in serverless-offline
 export const isOffline = (): boolean => !!process.env.IS_OFFLINE;
+
+export const tableName = (): string => process.env.TABLE_NAME as string;

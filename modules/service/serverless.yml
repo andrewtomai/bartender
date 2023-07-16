@@ -6,6 +6,8 @@ provider:
   stage: ${opt:stage, 'dev'}
   httpApi:
     cors: true
+  environment:
+    TABLE_NAME: Drinks-${self:provider.stage}
 plugins:
   - serverless-esbuild
   - serverless-dynamodb
