@@ -4,6 +4,14 @@ provider:
   region: us-west-2
   runtime: nodejs16.x
   stage: ${opt:stage, 'dev'}
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Resource: "arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/Drinks-${self:provider.stage}"
+          Action:
+            - "dynamodb:PutItem"
+            - "dynamodb:GetItem"
   httpApi:
     cors: true
   environment:

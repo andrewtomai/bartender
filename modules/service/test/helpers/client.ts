@@ -23,7 +23,7 @@ const baseUrl = () => {
         });
     }
     const stackInfo = readStackFile();
-    return stackInfo.ServiceEndpoint;
+    return stackInfo.HttpApiUrl;
 };
 
 const client = new GraphQLClient(baseUrl());
