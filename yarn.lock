@@ -1170,7 +1170,6 @@ __metadata:
     start-server-and-test: ^2.0.0
     ts-jest: ^29.1.1
     typescript: ^5.1.6
-    uuid: ^9.0.0
   languageName: unknown
   linkType: soft
 
