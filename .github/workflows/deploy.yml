@@ -40,7 +40,7 @@ jobs:
             - name: Install Dependencies
               run: yarn
             - name: run tests
-              run: yarn workspaces foreach run test:ci
+              run: yarn test:ci
     staging:
         needs: [tests, lint]
         runs-on: ubuntu-latest
@@ -66,3 +66,32 @@ jobs:
                   aws-region: us-west-2
             - name: Deploy to Staging
               run: yarn workspace @bartender/service deploy --stage staging
+            - name: run tests
+              run: export STAGE=staging; yarn test:ci
+    prod:
+        needs: [tests, lint]
+        runs-on: ubuntu-latest
+        permissions:
+            id-token: write
+            contents: read
+        steps:
+            # checkout the codebase
+            - uses: actions/checkout@v3
+            # setup the node environment
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '16'
+                  cache: yarn
+            # install dependencies and bootstrap monorepo
+            - name: Install Dependencies
+              run: yarn
+            - name: Configure AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v2
+              with:
+                  role-to-assume: arn:aws:iam::580705461669:role/ServiceDeployment
+                  aws-region: us-west-2
+            - name: Deploy to Prod
+              run: yarn workspace @bartender/service deploy --stage prod
+            - name: run tests
+              run: export STAGE=prod; yarn test:ci
