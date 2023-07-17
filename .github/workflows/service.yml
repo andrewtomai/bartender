@@ -1,48 +1,13 @@
-name: deploy
-# Run these on pull requests to master, and pushes to master
+name: deploy service
+# Run these on completion of the test workflow
 on:
-    push:
-        branches:
-            - main
-    pull_request:
-        branches:
-            - main
+    workflow_run:
+        workflows: [test]
+        types:
+            - completed
 
 jobs:
-    lint:
-        runs-on: ubuntu-latest
-        steps:
-            # checkout the codebase
-            - uses: actions/checkout@v3
-            # setup the node environment
-            - name: Setup Node.js environment
-              uses: actions/setup-node@v3
-              with:
-                  node-version: '16'
-                  cache: yarn
-            # install dependencies and bootstrap monorepo
-            - name: Install Dependencies
-              run: yarn
-            - name: Lint the code
-              run: yarn lint
-    tests:
-        runs-on: ubuntu-latest
-        steps:
-            # checkout the codebase
-            - uses: actions/checkout@v3
-            # setup the node environment
-            - name: Setup Node.js environment
-              uses: actions/setup-node@v3
-              with:
-                  node-version: '16'
-                  cache: yarn
-            # install dependencies and bootstrap monorepo
-            - name: Install Dependencies
-              run: yarn
-            - name: run tests
-              run: yarn test:ci
     staging:
-        needs: [tests, lint]
         runs-on: ubuntu-latest
         permissions:
             id-token: write
@@ -67,9 +32,9 @@ jobs:
             - name: Deploy to Staging
               run: yarn workspace @bartender/service deploy --stage staging
             - name: run tests
-              run: export STAGE=staging; yarn test:ci
+              run: export STAGE=staging; yarn workspace @bartender/service test
     prod:
-        needs: [tests, lint]
+        needs: staging
         runs-on: ubuntu-latest
         permissions:
             id-token: write
@@ -94,4 +59,4 @@ jobs:
             - name: Deploy to Prod
               run: yarn workspace @bartender/service deploy --stage prod
             - name: run tests
-              run: export STAGE=prod; yarn test:ci
+              run: export STAGE=prod; yarn workspace @bartender/service test

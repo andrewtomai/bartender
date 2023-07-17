@@ -9,7 +9,7 @@
     "start": "serverless offline start --reloadHandler",
     "postinstall": "serverless dynamodb install",
     "test": "jest",
-    "test:ci": "start-server-and-test 'yarn start' tcp:localhost:3000 'yarn test'",
+    "test-ci": "start-server-and-test 'yarn start' tcp:localhost:3000 'yarn test'",
     "deploy": "serverless deploy"
   },
   "devDependencies": {
