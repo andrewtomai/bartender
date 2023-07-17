@@ -9,6 +9,10 @@ export const clientConfiguration = (isOffline: boolean): DynamoDBClientConfig =>
               apiVersion: '2012-08-10',
               region: 'localhost',
               endpoint: `http://localhost:8000`,
+              credentials: {
+                  accessKeyId: 'xxx',
+                  secretAccessKey: 'yyy',
+              },
           }
         : { apiVersion: '2012-08-10' };
 
