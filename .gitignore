@@ -23,5 +23,5 @@ node_modules/
 !.yarn/versions
 
 # custom
-.stacks
+.stack.*
 .build
