@@ -8,7 +8,7 @@ provider:
     role:
       statements:
         - Effect: "Allow"
-          Resource: "arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/Drinks-${self:provider.stage}"
+          Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/Drinks-${self:provider.stage}"
           Action:
             - "dynamodb:PutItem"
             - "dynamodb:GetItem"
