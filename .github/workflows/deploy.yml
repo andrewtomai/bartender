@@ -44,6 +44,9 @@ jobs:
     staging:
         needs: [tests, lint]
         runs-on: ubuntu-latest
+        permissions:
+            id-token: write
+            contents: read
         steps:
             # checkout the codebase
             - uses: actions/checkout@v3
