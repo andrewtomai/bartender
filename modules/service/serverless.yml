@@ -59,4 +59,4 @@ custom:
     stages:
       - ${self:provider.stage}
   output:
-    file: .stacks/${self:provider.stage}.stack.json
+    file: .${self:provider.stage}.stack.json
