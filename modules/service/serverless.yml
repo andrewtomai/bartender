@@ -2,7 +2,7 @@ service: bartender
 provider:
   name: aws
   region: us-west-2
-  runtime: nodejs16.x
+  runtime: nodejs18.x
   stage: ${opt:stage, 'dev'}
   iam:
     role:
