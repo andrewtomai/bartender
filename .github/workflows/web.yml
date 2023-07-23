@@ -26,6 +26,8 @@ jobs:
               run: yarn
             - name: Build Distribution
               run: yarn workspace @bartender/web build
+              env:
+                VITE_BUILD_NUMBER: ${{ github.run_id }}
             - name: Configure AWS Credentials
               uses: aws-actions/configure-aws-credentials@v2
               with:
