@@ -33,12 +33,13 @@ Resources:
           CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
           TargetOriginId: WebAppOrigin
           ViewerProtocolPolicy: redirect-to-https
-        Enabled: Boolean
+          Compress: true
+        Enabled: true
         HttpVersion: http2and3
         Origins: 
           - CustomOriginConfig: 
               OriginProtocolPolicy: http-only
-            DomainName: !GetAtt WebAppBucket.WebsiteURL
+            DomainName: !Sub 'bartender-web-app.s3-website.${AWS::Region}.amazonaws.com'
             Id: WebAppOrigin
 
       
