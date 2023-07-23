@@ -33,9 +33,6 @@ jobs:
               run: yarn workspace @bartender/service deploy --stage staging
             - name: run tests
               run: export STAGE=staging; yarn workspace @bartender/service test
-            - name: optionally rollback
-              if: ${{ failure() }}
-              run: yarn workspace @bartender/service rollback --stage staging
     prod:
         needs: staging
         runs-on: ubuntu-latest
