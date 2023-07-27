@@ -1,5 +1,7 @@
+import CreateEventForm from './components/CreateEventForm';
+
 function App() {
-    return <p>{import.meta.env.VITE_BUILD_NUMBER}</p>;
+    return <CreateEventForm onFinish={console.log} />;
 }
 
 export default App;
