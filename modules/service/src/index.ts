@@ -3,34 +3,21 @@ import { startServerAndCreateLambdaHandler, handlers } from '@as-integrations/aw
 
 import { createId } from '@paralleldrive/cuid2';
 
-import typeDefs from './schema';
+import typeDefs, { Event, EventInput } from './schema';
 import { getObject, putObject } from './helpers/dynamodb';
-
-interface Ingredient {
-    name: string;
-    quantity: number;
-    unit: string;
-}
-
-type DrinkInput = {
-    name: string;
-    tags: string[];
-    recipe: Ingredient[];
-};
-
-type Drink = {
-    id: string;
-} & DrinkInput;
 
 const resolvers = {
     Query: {
-        drink: async (_, { id }) => getObject(id, id),
+        event: async (_, { id }) => {
+            const event = await getObject<Event>(id, id);
+            return event;
+        },
     },
     Mutation: {
-        createDrink: async (_, { drink }: { drink: DrinkInput }) => {
+        createEvent: async (_, { event }: { event: EventInput }) => {
             const id = createId();
-            await putObject<Drink>(id, id, { id, ...drink });
-            return { id, ...drink };
+            await putObject<Event>(id, id, { id, ...event });
+            return { id, ...event };
         },
     },
 };

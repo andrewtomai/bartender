@@ -1,39 +1,31 @@
 import gql from 'graphql-tag';
 
-const quantifiedIngredientFields = `#graphql
-    name: String!
-    quantity: Float
-    unit: String
-`;
+export type EventInput = {
+    name: string;
+    description?: string;
+};
+
+export type Event = {
+    id: string;
+} & EventInput;
 
 const defaultRoot = gql`
     type Query {
-        drink(id: String!): Drink
+        event(id: String!): Event
     }
-
     type Mutation {
-        createDrink(drink: DrinkInput!): Drink!
+        createEvent(event: EventInput!): Event!
     }
 
-    input QuantifiedIngredientInput {
-        ${quantifiedIngredientFields}
-    }
-
-    type QuantifiedIngredient {
-        ${quantifiedIngredientFields}
-    }
-
-    input DrinkInput {
+    input EventInput {
         name: String!
-        recipe: [QuantifiedIngredientInput!]
-        tags: [String!]
+        description: String
     }
 
-    type Drink {
+    type Event {
         id: String!
         name: String!
-        recipe: [QuantifiedIngredient!]
-        tags: [String!]
+        description: String
     }
 `;
 
