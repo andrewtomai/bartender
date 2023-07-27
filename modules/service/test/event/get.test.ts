@@ -13,6 +13,13 @@ const GetEventQuery = gql`
     }
 `;
 
+const getEventTest = async (id, expectedEvent) => {
+    const result = await Client.request(GetEventQuery, { id });
+    expect(result).toEqual({
+        event: expectedEvent,
+    });
+};
+
 describe('Get Events', () => {
     describe('Given an event has been created', () => {
         const name = 'my super cool name';
@@ -24,14 +31,15 @@ describe('Get Events', () => {
         });
         describe('When I get the event', () => {
             it('Then I get back the event', async () => {
-                const result = await Client.request(GetEventQuery, { id });
-                expect(result).toEqual({
-                    event: {
-                        id,
-                        name,
-                        description,
-                    },
-                });
+                await getEventTest(id, { id, name, description });
+            });
+        });
+    });
+
+    describe('Given an invalid event id', () => {
+        describe('When I get the event', () => {
+            it('Then I get back null', async () => {
+                await getEventTest('bad id', null);
             });
         });
     });
