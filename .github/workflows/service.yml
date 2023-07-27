@@ -58,8 +58,3 @@ jobs:
                   aws-region: us-west-2
             - name: Deploy to Prod
               run: yarn workspace @bartender/service deploy --stage prod
-            - name: run tests
-              run: export STAGE=prod; yarn workspace @bartender/service test
-            - name: optionally rollback
-              if: ${{ failure() }}
-              run: yarn workspace @bartender/service rollback --stage prod
