@@ -12,5 +12,5 @@ yarn workspace @bartender/web dev
 
 ### Start the Backend Service
 ```bash
-yarn workspace @bartender/service start
+yarn workspace @bartender/service dev
 ```
