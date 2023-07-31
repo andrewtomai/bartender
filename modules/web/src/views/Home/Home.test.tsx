@@ -11,8 +11,10 @@ describe('Home Page', () => {
         expect(screen.getByTestId('cta-component')).toBeDefined();
     });
 
-    test('Should open the create event modal on CTA click', () => {
+    test('Should open the create event modal on CTA click', async () => {
         const button = screen.getByTestId('cta-button');
         expect(button).toBeDefined();
+        fireEvent.click(button);
+        await waitFor(() => expect(screen.getByTestId('create-event-modal')).toBeDefined());
     });
 });

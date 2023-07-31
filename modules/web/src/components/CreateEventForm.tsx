@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
 
-interface CreateEventFormInputs {
+export interface CreateEventFormInputs {
     name: string;
     description?: string;
 }

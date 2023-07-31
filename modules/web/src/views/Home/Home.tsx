@@ -7,8 +7,10 @@ import useHomeStore from './store';
 
 const Home: React.FC = () => {
     const isModalOpen = useHomeStore((store) => store.isModalOpen);
+    const isFormLoading = useHomeStore((store) => store.isFormLoading);
     const openModal = useHomeStore((store) => store.openModal);
     const closeModal = useHomeStore((store) => store.closeModal);
+    const createEvent = useHomeStore((store) => store.createEvent);
     return (
         <>
             <Space style={{ display: 'grid', alignItems: 'center', height: '95vh' }} data-testid="cta-component">
@@ -22,7 +24,7 @@ const Home: React.FC = () => {
                 footer={false}
                 data-testid="create-event-modal"
             >
-                <CreateEventForm onFinish={closeModal} isLoading={false} />
+                <CreateEventForm onFinish={createEvent} isLoading={isFormLoading} />
             </Modal>
         </>
     );
