@@ -1,8 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import CallToAction from '../../components/CallToAction/CallToAction';
 import { Space, Modal } from 'antd';
-import CreateEventForm from '../../components/CreateEventForm';
+import CreateEventForm, { CreateEventFormInputs } from '../../components/CreateEventForm';
 import useHomeStore from './store';
 
 const Home: React.FC = () => {
@@ -11,6 +12,13 @@ const Home: React.FC = () => {
     const openModal = useHomeStore((store) => store.openModal);
     const closeModal = useHomeStore((store) => store.closeModal);
     const createEvent = useHomeStore((store) => store.createEvent);
+    const navigate = useNavigate();
+
+    const onFormFinish = async (values: CreateEventFormInputs) => {
+        const id = await createEvent(values);
+        navigate(`/event/${id}`);
+    };
+
     return (
         <>
             <Space style={{ display: 'grid', alignItems: 'center', height: '95vh' }} data-testid="cta-component">
@@ -24,7 +32,7 @@ const Home: React.FC = () => {
                 footer={false}
                 data-testid="create-event-modal"
             >
-                <CreateEventForm onFinish={createEvent} isLoading={isFormLoading} />
+                <CreateEventForm onFinish={onFormFinish} isLoading={isFormLoading} />
             </Modal>
         </>
     );
