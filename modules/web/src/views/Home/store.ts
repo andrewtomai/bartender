@@ -1,5 +1,17 @@
 import { create } from 'zustand';
+import BartenderClient from '../../helpers/bartender-client';
+import { gql } from 'graphql-request';
 import { CreateEventFormInputs } from '../../components/CreateEventForm';
+
+export const CreateEventMutation = gql`
+    mutation CreateEvent($name: String!, $description: String) {
+        createEvent(event: { name: $name, description: $description }) {
+            id
+            name
+            description
+        }
+    }
+`;
 
 export type HomeStore = {
     isModalOpen: boolean;
@@ -14,9 +26,10 @@ const useHomeStore = create<HomeStore>((set) => ({
     isFormLoading: false,
     openModal: () => set(() => ({ isModalOpen: true })),
     closeModal: () => set(() => ({ isModalOpen: false })),
-    createEvent: async () => {
+    createEvent: async ({ name, description }) => {
         set(() => ({ isFormLoading: true }));
-        await new Promise((r) => setTimeout(r, 3000));
+        const result = await BartenderClient.request(CreateEventMutation, { name, description });
+        console.log(result);
         set(() => ({ isFormLoading: false, isModalOpen: false }));
     },
 }));
