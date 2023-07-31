@@ -1,7 +1,5 @@
-import CallToAction from './components/CallToAction/CallToAction';
+import Home from './views/Home/Home';
 
-function App() {
-    return <CallToAction onCallToActionClick={console.log} />;
-}
+const App = () => <Home />;
 
 export default App;

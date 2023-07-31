@@ -6,11 +6,12 @@ interface CreateEventFormInputs {
     description?: string;
 }
 
-type props = {
+export type props = {
     onFinish: (values: CreateEventFormInputs) => void;
+    isLoading?: boolean;
 };
 
-const CreateEventForm: React.FC<props> = ({ onFinish }) => (
+const CreateEventForm: React.FC<props> = ({ onFinish, isLoading }) => (
     <Form
         name="create_event"
         labelCol={{ span: 8 }}
@@ -37,7 +38,7 @@ const CreateEventForm: React.FC<props> = ({ onFinish }) => (
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button data-testid="submit-button" type="primary" htmlType="submit">
+            <Button data-testid="submit-button" loading={isLoading} type="primary" htmlType="submit">
                 Create Event
             </Button>
         </Form.Item>

@@ -23,7 +23,7 @@ const CallToAction: React.FC<props> = ({ onCallToActionClick }) => (
             </Row>
             <Row justify={'center'}>
                 <Col>
-                    <Button type="primary" onClick={onCallToActionClick} data-testid="cta">
+                    <Button type="primary" onClick={onCallToActionClick} data-testid="cta-button">
                         Get Started
                     </Button>
                 </Col>

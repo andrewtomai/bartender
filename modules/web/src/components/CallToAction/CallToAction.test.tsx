@@ -5,9 +5,9 @@ import CallToAction from './CallToAction';
 
 const myCallback = vi.fn();
 
-const getCtaButton = () => screen.getByTestId('cta');
+const getCtaButton = () => screen.getByTestId('cta-button');
 
-describe('Create Event Form', () => {
+describe('Call to Action', () => {
     beforeEach(() => {
         render(<CallToAction onCallToActionClick={myCallback} />);
     });
