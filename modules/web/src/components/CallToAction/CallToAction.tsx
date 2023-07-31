@@ -6,7 +6,7 @@ type props = {
     onCallToActionClick: () => void;
 };
 
-const LandingPage: React.FC<props> = ({ onCallToActionClick }) => (
+const CallToAction: React.FC<props> = ({ onCallToActionClick }) => (
     <>
         <Row justify={'center'}>
             <Col span={8}>
@@ -31,4 +31,4 @@ const LandingPage: React.FC<props> = ({ onCallToActionClick }) => (
         </Space>
     </>
 );
-export default LandingPage;
+export default CallToAction;

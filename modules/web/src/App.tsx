@@ -1,7 +1,7 @@
-import LandingPage from './components/LandingPage/LandingPage';
+import CallToAction from './components/CallToAction/CallToAction';
 
 function App() {
-    return <LandingPage onCallToActionClick={console.log} />;
+    return <CallToAction onCallToActionClick={console.log} />;
 }
 
 export default App;
