@@ -1,7 +1,7 @@
-import CreateEventForm from './components/CreateEventForm';
+import LandingPage from './components/LandingPage/LandingPage';
 
 function App() {
-    return <CreateEventForm onFinish={console.log} />;
+    return <LandingPage onCallToActionClick={console.log} />;
 }
 
 export default App;
