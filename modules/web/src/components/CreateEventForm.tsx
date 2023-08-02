@@ -20,13 +20,8 @@ const CreateEventForm: React.FC<props> = ({ onFinish, isLoading }) => (
         onFinish={onFinish}
         autoComplete="off"
     >
-        <Form.Item
-            data-testid="name-form-input"
-            label="Name"
-            name="name"
-            rules={[{ required: true, message: 'Lets name the event!' }]}
-        >
-            <Input data-testid="name-input" />
+        <Form.Item label="Name" name="name" rules={[{ required: true, message: 'Lets name the event!' }]}>
+            <Input />
         </Form.Item>
 
         <Form.Item
@@ -34,11 +29,11 @@ const CreateEventForm: React.FC<props> = ({ onFinish, isLoading }) => (
             name="description"
             rules={[{ required: false, message: 'Tell your guests what they should get excited about' }]}
         >
-            <Input data-testid="description-input" />
+            <Input />
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button data-testid="submit-button" loading={isLoading} type="primary" htmlType="submit">
+            <Button aria-label="Submit" loading={isLoading} type="primary" htmlType="submit">
                 Create Event
             </Button>
         </Form.Item>

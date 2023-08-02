@@ -3,11 +3,11 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
 import CreateEventForm from './CreateEventForm';
 
-const getNameInput = () => screen.getByTestId('name-input');
+const getNameInput = () => screen.getByRole('textbox', { name: 'Name' });
 
-const getDescriptionInput = () => screen.getByTestId('description-input');
+const getDescriptionInput = () => screen.getByRole('textbox', { name: 'Description' });
 
-const getSubmitButton = () => screen.getByTestId('submit-button');
+const getSubmitButton = () => screen.getByRole('button', { name: 'Submit' });
 
 const myCallback = vi.fn();
 
