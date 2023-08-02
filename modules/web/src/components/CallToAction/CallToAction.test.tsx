@@ -5,7 +5,7 @@ import CallToAction from './CallToAction';
 
 const myCallback = vi.fn();
 
-const getCtaButton = () => screen.getByTestId('cta-button');
+const getCtaButton = () => screen.getByRole('button', { name: 'Start' });
 
 describe('Call to Action', () => {
     beforeEach(() => {
@@ -15,7 +15,7 @@ describe('Call to Action', () => {
         expect(screen.getByAltText('bartender website logo')).toBeDefined();
     });
     test('Should have a short description of the website', () => {
-        expect(screen.getByTestId('description')).toBeDefined();
+        expect(screen.getByText(/beverage preferences/)).toBeDefined();
     });
     test('Should have a call to action button', () => {
         expect(getCtaButton()).toBeDefined();
