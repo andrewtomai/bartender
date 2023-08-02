@@ -13,8 +13,9 @@ const myCallback = vi.fn();
 
 describe('Create Event Form', () => {
     describe('Given the form is not "loading"', () => {
+        let container: HTMLElement;
         beforeEach(() => {
-            render(<CreateEventForm onFinish={myCallback} />);
+            ({ container } = render(<CreateEventForm onFinish={myCallback} />));
         });
         test('Should have a name text box', () => {
             expect(screen.getByText(/Name/i)).toBeDefined();
@@ -29,6 +30,7 @@ describe('Create Event Form', () => {
         test('Should have a submission button', () => {
             expect(screen.getByText(/Create Event/i)).toBeDefined();
             expect(getSubmitButton()).toBeDefined();
+            expect(container.querySelector('[class*=loading]')).toBe(null);
         });
 
         test('Should be able to fill out the form', async () => {
@@ -42,6 +44,17 @@ describe('Create Event Form', () => {
             fireEvent.click(submitButton);
             await waitFor(() => expect(myCallback).toHaveBeenCalledOnce());
             expect(myCallback).toHaveBeenCalledWith({ name, description });
+        });
+    });
+
+    describe('Given the form is "loading"', () => {
+        let container: HTMLElement;
+        beforeEach(() => {
+            ({ container } = render(<CreateEventForm onFinish={myCallback} isLoading={true} />));
+        });
+
+        test('Should have a button "loading"', () => {
+            expect(container.querySelector('[class*=loading]')).toBeDefined();
         });
     });
 });
