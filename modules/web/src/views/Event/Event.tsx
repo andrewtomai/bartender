@@ -1,33 +1,33 @@
-import React from 'react';
-import { gql } from 'graphql-request';
-import { useQuery } from '@tanstack/react-query';
+import './Event.css';
 
-import BartenderClient from '../../helpers/bartender-client';
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
-export interface Event {
-    id: string;
-    name: string;
-    description?: string;
-}
+import { getEventQuery } from '../../helpers/bartender-client';
+import EventDescription from '../../components/EventDescription';
 
-const GetEventQuery = gql`
-    query GetEvent($id: String!) {
-        event(id: $id) {
-            id
-            name
-            description
-        }
-    }
-`;
+const ColorfulBackgrond = <div data-testid="colorful-background" className="colorful-background"></div>;
 
-const getEvent = (id: string) => () => BartenderClient.request(GetEventQuery, { id });
+const NOT_FOUND_VALUES = {
+    name: 'Oh No!',
+    description: "we can't find that event...",
+};
 
 const EventView: React.FC = () => {
     const { eventId } = useParams();
-    const { data } = useQuery(['events'], getEvent(eventId as string));
+    const { data, isLoading } = useQuery(['events'], getEventQuery(eventId as string));
 
-    return <p>{JSON.stringify(data)}</p>;
+    if (isLoading) return ColorfulBackgrond;
+
+    const { name, description } = data?.event || NOT_FOUND_VALUES;
+
+    return (
+        <>
+            {ColorfulBackgrond}
+            <EventDescription name={name} description={description} />
+        </>
+    );
 };
 
 export default EventView;

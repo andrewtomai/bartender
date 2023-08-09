@@ -1,5 +1,5 @@
 import { describe, test, expect, vi } from 'vitest';
-import { renderWithRouter } from '../../../test/render';
+import { renderWithProviders } from '../../../test/render';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 
 import Home from './Home';
@@ -23,7 +23,7 @@ const fillAndSubmitForm = () => {
 describe('Home Page', () => {
     describe('Given the home view is loaded', () => {
         beforeEach(() => {
-            renderWithRouter(<Home />);
+            renderWithProviders(<Home />);
         });
         test('Should render the Call to Action', () => {
             expect(screen.getByTestId('cta-component')).toBeDefined();
@@ -40,7 +40,7 @@ describe('Home Page', () => {
         const createEventStub = vi.fn();
         beforeEach(async () => {
             useHomeStore.setState({ isModalOpen: true, createEvent: createEventStub });
-            renderWithRouter(<Home />);
+            renderWithProviders(<Home />);
         });
         test('Should close the modal when clicking off the modal', async () => {
             const closeButton = screen.getByRole('button', { name: 'Close' });
@@ -59,7 +59,7 @@ describe('Home Page', () => {
     describe('Given an event has been successfully created', () => {
         beforeEach(async () => {
             useHomeStore.setState({ isModalOpen: true, createEvent: vi.fn().mockResolvedValue('hello') });
-            renderWithRouter(<Home />);
+            renderWithProviders(<Home />);
             fillAndSubmitForm();
         });
 
