@@ -16,7 +16,6 @@ const Home: React.FC = () => {
 
     const onFormFinish = async (values: CreateEventFormInputs) => {
         const id = await createEvent(values);
-        console.log(id);
         navigate(`/event/${id}`);
     };
 
