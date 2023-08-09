@@ -1,7 +1,6 @@
 import { describe, test, expect, vi } from 'vitest';
-import * as Router from 'react-router-dom';
-import { ReactNode } from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { renderWithRouter } from '../../../test/render';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 
 import Home from './Home';
 import useHomeStore from './store';
@@ -12,8 +11,6 @@ vi.mock('react-router-dom', async () => {
     const router = (await vi.importActual('react-router-dom')) as object;
     return { ...router, useNavigate: () => navigate };
 });
-
-const renderWithRouter = (child: ReactNode) => render(<Router.BrowserRouter>{child}</Router.BrowserRouter>);
 
 const fillAndSubmitForm = () => {
     fireEvent.change(screen.getByRole('textbox', { name: 'Name' }), { target: { value: 'some name' } });
