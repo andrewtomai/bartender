@@ -1,7 +1,7 @@
 import { describe, test, expect, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
-import CallToAction from './CallToAction';
+import CallToAction from '.';
 
 const myCallback = vi.fn();
 

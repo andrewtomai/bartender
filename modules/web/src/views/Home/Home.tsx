@@ -2,7 +2,7 @@ import { Space, Modal } from 'antd';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import CallToAction from '../../components/CallToAction/CallToAction';
+import CallToAction from '../../components/CallToAction';
 import CreateEventForm, { CreateEventFormInputs } from '../../components/CreateEventForm';
 import useHomeStore from './store';
 
