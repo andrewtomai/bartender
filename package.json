@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint-staged": "lint-staged",
-    "lint": "eslint '*/**/*.{js,ts,tsx}'"
+    "lint": "eslint '*/**/*.{js,ts,tsx}'",
+    "compile": "yarn workspaces foreach --exclude bartender -p run tsc --noEmit"
   },
   "author": "Andrew Tomai",
   "license": "ISC",

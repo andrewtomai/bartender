@@ -2,7 +2,7 @@ import { GraphQLClient, gql } from 'graphql-request';
 
 const BASE_URL = 'https://b78lyqv8kd.execute-api.us-west-2.amazonaws.com/';
 
-interface Event {
+export interface Event {
     id: string;
     name: string;
     description?: string;

@@ -26,7 +26,7 @@ jobs:
             - name: Lint the code
               run: yarn lint
             - name: Compile the code
-              run: yarn workspaces foreach run tsc --noEmit
+              run: yarn compile
     tests:
         runs-on: ubuntu-latest
         steps:

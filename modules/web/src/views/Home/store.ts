@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Event } from '../Event/Event';
+import { Event } from '../../helpers/bartender-client';
 import { gql } from 'graphql-request';
 
 import BartenderClient from '../../helpers/bartender-client';
