@@ -66,6 +66,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ant-design/icons-svg@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "@ant-design/icons-svg@npm:4.3.0"
+  checksum: 32804d9e38caa45271f0905edc26cda730bd08bdc311a1509bca386bd170accd6b141f6ebaf65d74f6726112677f871f4ef8ff1bfd13472302a43d1c965ae2e3
+  languageName: node
+  linkType: hard
+
 "@ant-design/icons@npm:^5.1.0":
   version: 5.1.4
   resolution: "@ant-design/icons@npm:5.1.4"
@@ -79,6 +86,23 @@ __metadata:
     react: ">=16.0.0"
     react-dom: ">=16.0.0"
   checksum: f74f27b526459e69354adbc9d222a99afcf5fd0074a97575df239fbe5d077de0de903afa612546f24c378c2e163e02e4e31cde575da4e84e597025f12c90984f
+  languageName: node
+  linkType: hard
+
+"@ant-design/icons@npm:^5.2.5":
+  version: 5.2.5
+  resolution: "@ant-design/icons@npm:5.2.5"
+  dependencies:
+    "@ant-design/colors": ^7.0.0
+    "@ant-design/icons-svg": ^4.3.0
+    "@babel/runtime": ^7.11.2
+    classnames: ^2.2.6
+    lodash.camelcase: ^4.3.0
+    rc-util: ^5.31.1
+  peerDependencies:
+    react: ">=16.0.0"
+    react-dom: ">=16.0.0"
+  checksum: b21c99a783d4796de6e86a9057637cb7f5e059999d5d169dc889ad98523c64fe062ba26f81c40174b20acb3644ac2d12765e50f9a96a8ae1ad66e2b8bb29d813
   languageName: node
   linkType: hard
 
@@ -1368,6 +1392,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bartender/web@workspace:modules/web"
   dependencies:
+    "@ant-design/icons": ^5.2.5
     "@tanstack/react-query": ^4.32.0
     "@testing-library/react": ^14.0.0
     "@types/react": ^18.2.15
@@ -9394,6 +9419,13 @@ __metadata:
   dependencies:
     p-locate: ^5.0.0
   checksum: 72eb661788a0368c099a184c59d2fee760b3831c9c1c33955e8a19ae4a21b4116e53fa736dc086cdeb9fce9f7cc508f2f92d2d3aae516f133e16a2bb59a39f5a
+  languageName: node
+  linkType: hard
+
+"lodash.camelcase@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "lodash.camelcase@npm:4.3.0"
+  checksum: cb9227612f71b83e42de93eccf1232feeb25e705bdb19ba26c04f91e885bfd3dd5c517c4a97137658190581d3493ea3973072ca010aab7e301046d90740393d1
   languageName: node
   linkType: hard
 
