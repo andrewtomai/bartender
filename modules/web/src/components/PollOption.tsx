@@ -1,14 +1,13 @@
 import { Button } from 'antd';
-import Icon, { CheckCircleOutlined } from '@ant-design/icons';
-import React, { ComponentType } from 'react';
+import { CheckCircleOutlined } from '@ant-design/icons';
+import React from 'react';
 
 interface props {
     name: string;
-    icon: ComponentType<unknown>;
     isSelected?: boolean;
 }
-const PollOption: React.FC<props> = ({ name, icon, isSelected = false }) => (
-    <Button icon={isSelected ? <CheckCircleOutlined /> : <Icon component={icon} />}>{name}</Button>
+const PollOption: React.FC<props> = ({ name, isSelected = false }) => (
+    <Button icon={isSelected ? <CheckCircleOutlined /> : null}>{name}</Button>
 );
 
 export default PollOption;
