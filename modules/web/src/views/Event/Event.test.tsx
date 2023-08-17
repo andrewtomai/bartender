@@ -1,5 +1,5 @@
 import { describe, test, expect, vi } from 'vitest';
-import { screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import * as BartenderClient from '../../helpers/bartender-client';
 import { renderWithProviders } from '../../../test/render';
 
@@ -33,9 +33,15 @@ describe('Event View', () => {
             expect(BartenderClient.getEventQuery).toHaveBeenCalledWith(event.id);
         });
 
-        test('Should render the Event name and description', async () => {
-            await waitFor(() => expect(screen.getByText(event.name)).toBeDefined());
-            await waitFor(() => expect(screen.getByText(event.description)).toBeDefined());
+        test('Should render the Event name, description, and preference form', async () => {
+            expect(await screen.findByText(event.name)).toBeDefined();
+            expect(await screen.findByText(event.description)).toBeDefined();
+            expect(await screen.findAllByRole('button')).toBeDefined();
+        });
+        test('Should be able to click any of the buttons', async () => {
+            const [button] = await screen.findAllByRole('button');
+            fireEvent.click(button);
+            expect(await screen.findByRole('img', { name: 'check-circle' })).toBeDefined();
         });
     });
 

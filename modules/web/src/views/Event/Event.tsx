@@ -6,6 +6,9 @@ import { useParams } from 'react-router-dom';
 
 import { getEventQuery } from '../../helpers/bartender-client';
 import EventDescription from '../../components/EventDescription';
+import PreferencesForm from '../../components/PreferencesForm';
+import useEventStore from './store';
+import { Row, Space } from 'antd';
 
 const ColorfulBackgrond = <div data-testid="colorful-background" className="colorful-background"></div>;
 
@@ -17,6 +20,8 @@ const NOT_FOUND_VALUES = {
 const EventView: React.FC = () => {
     const { eventId } = useParams();
     const { data, isLoading } = useQuery(['events'], getEventQuery(eventId as string));
+    const options = useEventStore((state) => state.options);
+    const onOptionClick = useEventStore((state) => state.onOptionClick);
 
     if (isLoading) return ColorfulBackgrond;
 
@@ -25,7 +30,12 @@ const EventView: React.FC = () => {
     return (
         <>
             {ColorfulBackgrond}
-            <EventDescription name={name} description={description} />
+            <Space direction="vertical" size="middle" style={{ display: 'grid', alignItems: 'center' }}>
+                <EventDescription name={name} description={description} />
+                <Row justify="center">
+                    <PreferencesForm options={options} onOptionClick={onOptionClick} />
+                </Row>
+            </Space>
         </>
     );
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import PollOption from './PollOption';
 import { Space } from 'antd';
 
-interface Option {
+export interface Option {
     name: string;
     isSelected: boolean;
 }
@@ -14,7 +14,7 @@ interface props {
 
 const PreferencesForm: React.FC<props> = ({ options, onOptionClick }) => {
     return (
-        <Space wrap size="middle" style={{ display: 'flex' }}>
+        <Space wrap size="middle" style={{ justifyContent: 'center' }}>
             {options.map((option) => (
                 <PollOption key={option.name} {...option} onClick={() => onOptionClick(option)} />
             ))}
